@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>חופשת סוכות משפחתית – פאפוס, קפריסין 2026</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Vue 3 -->
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    
+   
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Custom Tailwind Configuration for RTL -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Heebo', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        html { scroll-behavior: smooth; }
+        body { background-color: #f8fafc; } /* Light slate background similar to reference */
+        [v-cloak] { display: none; }
+    </style>
+</head>
+<body class="text-slate-800 antialiased">
+
+    <!-- Vue App Container -->
+    <div id="app" v-cloak class="min-h-screen">
+        
+        <!-- Main Layout Wrapper -->
+        <div class="max-w-6xl mx-auto flex flex-col md:flex-row gap-8 p-4 md:p-8">
+            
+            <!-- Sticky Sidebar Navigation -->
+            <aside class="md:w-64 shrink-0">
+                <div class="sticky top-8 bg-white p-5 rounded-2xl shadow-sm border border-slate-100">
+                    <h1 class="text-xl font-bold mb-2 flex items-center gap-2 text-slate-900">
+                        <span>🏖️</span>
+                        {{ tripInfo.destination }} 2026
+                    </h1>
+                    <div class="text-sm text-slate-500 mb-6 font-medium">
+                        {{ tripInfo.dates.totalNights }} לילות | משפחתנו
+                    </div>
+                    
+                    <nav class="space-y-1.5 text-sm font-medium">
+                        <a href="#overview" class="flex items-center gap-3 p-2.5 hover:bg-slate-50 rounded-lg text-slate-700 transition-colors">
+                            <span class="text-lg">🗺️</span> המסלול
+                        </a>
+                        <a href="#itinerary" class="flex items-center gap-3 p-2.5 hover:bg-slate-50 rounded-lg text-slate-700 transition-colors">
+                            <span class="text-lg">📅</span> פירוט יומי
+                        </a>
+                        <a href="#flights" class="flex items-center gap-3 p-2.5 hover:bg-slate-50 rounded-lg text-slate-700 transition-colors">
+                            <span class="text-lg">✈️</span> טיסות
+                        </a>
+                        <a href="#accommodation" class="flex items-center gap-3 p-2.5 hover:bg-slate-50 rounded-lg text-slate-700 transition-colors">
+                            <span class="text-lg">🏨</span> לינה
+                        </a>
+                        <a href="#gear" class="flex items-center gap-3 p-2.5 hover:bg-slate-50 rounded-lg text-slate-700 transition-colors">
+                            <span class="text-lg">🧳</span> ציוד לארוז
+                        </a>
+                    </nav>
+                </div>
+            </aside>
+
+            <!-- Main Content Area -->
+            <main class="flex-1 space-y-10">
+                
+                <!-- Hero / Overview Section -->
+                <section id="overview" class="bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-slate-100">
+                    <h2 class="text-3xl md:text-4xl font-extrabold text-slate-900 mb-3 tracking-tight">
+                        🚗 {{ tripInfo.title }}
+                    </h2>
+                    <p class="text-lg text-slate-500 mb-8">{{ tripInfo.subtitle }}</p>
+
+                    <div class="bg-sky-50 text-sky-900 p-5 rounded-xl flex flex-col md:flex-row gap-6 justify-between items-start md:items-center border border-sky-100">
+                        <div class="flex items-center gap-3">
+                            <span class="text-2xl">🛫</span> 
+                            <div>
+                                <div class="text-sm text-sky-700 font-bold">המראה הלוך</div>
+                                <div>{{ flights.outbound.date }} ({{ flights.outbound.departure }})</div>
+                            </div>
+                        </div>
+                        <div class="hidden md:block w-px h-10 bg-sky-200"></div>
+                        <div class="flex items-center gap-3">
+                            <span class="text-2xl">🛬</span> 
+                            <div>
+                                <div class="text-sm text-sky-700 font-bold">המראה חזור</div>
+                                <div>{{ flights.inbound.date }} ({{ flights.inbound.departure }})</div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Itinerary Quick List -->
+                <section class="bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-slate-100">
+                    <h3 class="text-2xl font-bold mb-6 flex items-center gap-2">
+                        <span>🗺️</span> מפת כל המסלול
+                    </h3>
+                    <ul class="space-y-4">
+                        <li v-for="day in itinerary" :key="'summary-' + day.dayNumber" class="flex items-start gap-4 group">
+                            <div class="mt-2 w-2 h-2 rounded-full bg-sky-400 shrink-0 group-hover:bg-sky-600 transition-colors"></div>
+                            <div>
+                                <a :href="'#day-' + day.dayNumber" class="font-bold text-slate-800 hover:text-sky-600 transition-colors">
+                                    יום {{ day.dayOfWeek }}, {{ formatDate(day.date) }}
+                                </a>
+                                <div class="text-slate-600 mt-0.5">{{ day.title }}</div>
+                            </div>
+                        </li>
+                    </ul>
+                </section>
+
+                <!-- Detailed Daily Cards -->
+                <div id="itinerary" class="space-y-6 pt-4">
+                    <h3 class="text-2xl font-bold mb-2 flex items-center gap-2 px-2">
+                        <span>📖</span> פירוט ימים
+                    </h3>
+                    
+                    <section v-for="day in itinerary" :key="day.dayNumber" :id="'day-' + day.dayNumber" 
+                             class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden transition-shadow hover:shadow-md">
+                        
+                        <!-- Card Header -->
+                        <div class="bg-slate-50 border-b border-slate-100 p-5 flex flex-col md:flex-row md:justify-between md:items-center gap-3">
+                            <h3 class="text-xl font-bold text-slate-900 flex flex-wrap items-center gap-3">
+                                <span class="bg-white border border-slate-200 text-slate-700 text-sm px-3 py-1 rounded-full shadow-sm">
+                                    יום {{ day.dayNumber }}
+                                </span>
+                                <span>{{ day.dayOfWeek }}, {{ formatDate(day.date) }}</span>
+                            </h3>
+                        </div>
+                        
+                        <!-- Card Body -->
+                        <div class="p-6 md:p-8 space-y-6">
+                            <h4 class="text-2xl font-extrabold text-slate-800">{{ day.title }}</h4>
+                            
+                            <!-- Badges -->
+                            <div class="flex flex-wrap gap-3">
+                                <span v-if="day.travelTime" class="bg-slate-100 text-slate-700 text-sm px-3 py-1.5 rounded-lg flex items-center gap-2 font-medium">
+                                    <span>🚗</span> נסיעה: {{ day.travelTime }}
+                                </span>
+                                <span v-if="day.strollerFriendly !== undefined" 
+                                      :class="day.strollerFriendly ? 'bg-emerald-50 text-emerald-700 border-emerald-100' : 'bg-rose-50 text-rose-700 border-rose-100'" 
+                                      class="border text-sm px-3 py-1.5 rounded-lg flex items-center gap-2 font-medium">
+                                    <span>{{ day.strollerFriendly ? '👶' : '⚠️' }}</span>
+                                    {{ day.strollerFriendly ? 'נגיש לעגלה' : 'לא נגיש לעגלה (מומלץ מנשא)' }}
+                                </span>
+                            </div>
+
+                            <p v-if="day.description" class="text-slate-600 leading-relaxed text-lg">{{ day.description }}</p>
+
+                            <!-- Activities List -->
+                            <div v-if="day.activities && day.activities.length > 0" class="mt-6">
+                                <h5 class="font-bold text-slate-900 mb-3 text-lg flex items-center gap-2">
+                                    <span>📌</span> פעילויות:
+                                </h5>
+                                <ul class="space-y-2">
+                                    <li v-for="act in day.activities" :key="act" class="flex items-start gap-3 text-slate-700">
+                                        <span class="text-sky-500 mt-1">✓</span>
+                                        <span class="leading-relaxed">{{ act }}</span>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <!-- Toddler Tip Alert -->
+                            <div v-if="day.toddlerTip" class="mt-6 bg-amber-50/50 border border-amber-200 p-5 rounded-xl flex items-start gap-4">
+                                <span class="text-2xl drop-shadow-sm">💡</span>
+                                <div>
+                                    <h4 class="text-base font-bold text-amber-900 mb-1">טיפ זהב לפעוטות</h4>
+                                    <p class="text-amber-800 text-sm md:text-base leading-relaxed">{{ day.toddlerTip }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+
+                <!-- Accommodation Details -->
+                <section id="accommodation" class="bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-slate-100 pt-8">
+                    <h3 class="text-2xl font-bold mb-6 flex items-center gap-2">
+                        <span>🏨</span> לינה
+                    </h3>
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                        <div>
+                            <h4 class="text-xl font-bold text-slate-900 mb-2">{{ accommodation.name }}</h4>
+                            <p class="text-slate-500 mb-6">{{ accommodation.type }}</p>
+                            
+                            <div class="space-y-4">
+                                <div class="flex items-start gap-3">
+                                    <span class="text-xl mt-0.5">📍</span>
+                                    <div>
+                                        <div class="font-bold text-slate-700">מיקום</div>
+                                        <div class="text-slate-600">{{ accommodation.location }}</div>
+                                    </div>
+                                </div>
+                                <div class="flex items-start gap-3">
+                                    <span class="text-xl mt-0.5">🛏️</span>
+                                    <div>
+                                        <div class="font-bold text-slate-700">סוג חדר</div>
+                                        <div class="text-slate-600">{{ accommodation.roomType }}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-slate-50 p-6 rounded-xl border border-slate-100">
+                            <h4 class="font-bold text-slate-900 mb-4 flex items-center gap-2">
+                                <span>✨</span> מתקני המלון והחג
+                            </h4>
+                            <ul class="space-y-3">
+                                <li v-for="amenity in accommodation.amenities" :key="amenity" class="flex items-start gap-3 text-slate-700">
+                                    <span class="text-emerald-500 font-bold mt-0.5">✓</span> {{ amenity }}
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Flights Details -->
+                <section id="flights" class="bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-slate-100">
+                    <h3 class="text-2xl font-bold mb-6 flex items-center gap-2">
+                        <span>✈️</span> פרטי טיסות
+                    </h3>
+                    <p class="text-slate-600 mb-6 font-medium">חברת תעופה: {{ flights.airline }}</p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Outbound Card -->
+                        <div class="border border-sky-100 bg-sky-50/30 p-6 rounded-2xl">
+                            <div class="flex items-center gap-3 text-sky-900 font-extrabold text-lg mb-4 border-b border-sky-100 pb-3">
+                                <span class="text-2xl">🛫</span> הלוך - {{ flights.outbound.date }}
+                            </div>
+                            <div class="space-y-3 text-slate-700">
+                                <div class="flex justify-between"><span class="font-bold">מספר טיסה:</span> <span>{{ flights.outbound.flightNumber }}</span></div>
+                                <div class="flex justify-between"><span class="font-bold">המראה מ:</span> <span>{{ flights.outbound.departure }}</span></div>
+                                <div class="flex justify-between"><span class="font-bold">נחיתה ב:</span> <span>{{ flights.outbound.arrival }}</span></div>
+                                <div class="flex justify-between"><span class="font-bold">זמן טיסה:</span> <span>{{ flights.outbound.duration }}</span></div>
+                                <div class="mt-4 pt-4 border-t border-sky-100 text-sm text-slate-500 flex gap-2">
+                                    <span>ℹ️</span> {{ flights.outbound.notes }}
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Inbound Card -->
+                        <div class="border border-sky-100 bg-sky-50/30 p-6 rounded-2xl">
+                            <div class="flex items-center gap-3 text-sky-900 font-extrabold text-lg mb-4 border-b border-sky-100 pb-3">
+                                <span class="text-2xl">🛬</span> חזור - {{ flights.inbound.date }}
+                            </div>
+                            <div class="space-y-3 text-slate-700">
+                                <div class="flex justify-between"><span class="font-bold">מספר טיסה:</span> <span>{{ flights.inbound.flightNumber }}</span></div>
+                                <div class="flex justify-between"><span class="font-bold">המראה מ:</span> <span>{{ flights.inbound.departure }}</span></div>
+                                <div class="flex justify-between"><span class="font-bold">נחיתה ב:</span> <span>{{ flights.inbound.arrival }}</span></div>
+                                <div class="flex justify-between"><span class="font-bold">זמן טיסה:</span> <span>{{ flights.inbound.duration }}</span></div>
+                                <div class="mt-4 pt-4 border-t border-sky-100 text-sm text-slate-500 flex gap-2">
+                                    <span>ℹ️</span> {{ flights.inbound.notes }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Packing Checklist -->
+                <section id="gear" class="bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-slate-100 mb-10">
+                    <h3 class="text-2xl font-bold mb-6 flex items-center gap-2">
+                        <span>🧳</span> רשימת אריזה ממוקדת קפריסין
+                    </h3>
+                    <div class="bg-slate-50 p-6 rounded-xl border border-slate-200">
+                        <ul class="space-y-4">
+                            <li v-for="(item, index) in packingAndGearChecklist" :key="index" class="flex items-start gap-4">
+                                <!-- Custom Checkbox logic just for visuals -->
+                                <div class="relative flex items-start mt-1">
+                                    <input type="checkbox" :id="'check-'+index" class="peer h-5 w-5 cursor-pointer appearance-none rounded-md border border-slate-300 checked:border-sky-500 checked:bg-sky-500 transition-all">
+                                    <svg class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 h-3.5 w-3.5 text-white opacity-0 peer-checked:opacity-100 pointer-events-none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+                                        <polyline points="20 6 9 17 4 12"></polyline>
+                                    </svg>
+                                </div>
+                                <label :for="'check-'+index" class="text-slate-800 text-lg cursor-pointer select-none peer-checked:text-slate-400 peer-checked:line-through transition-all">
+                                    {{ item }}
+                                </label>
+                            </li>
+                        </ul>
+                    </div>
+                </section>
+
+            </main>
+        </div>
+    </div>
+
+    <!-- Vue Application Logic -->
+    <script>
+        const { createApp, ref } = Vue;
+
+        const tripData = {
+          "tripInfo": {
+            "title": "חופשת סוכות משפחתית – פאפוס, קפריסין 2026",
+            "subtitle": "משפחתנו בריזורט Brown Paphos Hills",
+            "dates": {
+              "start": "2026-09-23",
+              "end": "2026-10-04",
+              "totalNights": 11
+            },
+            "destination": "פאפוס, קפריסין",
+          },
+          "flights": {
+            "airline": "ישראייר (Israir)",
+            "outbound": {
+              "date": "2026-09-23",
+              "dayOfWeek": "יום ד'",
+              "flightNumber": "6H595",
+              "departure": "15:40 TLV (נתב\"ג)",
+              "arrival": "16:50 PFO (פאפוס)",
+              "duration": "שעה ו-10 דק'",
+              "notes": "נחיתה נוחה אחה\"צ, איסוף רכב והגעה מהירה למלון"
+            },
+            "inbound": {
+              "date": "2026-10-04",
+              "dayOfWeek": "יום א'",
+              "flightNumber": "6H596",
+              "departure": "19:10 PFO (פאפוס)",
+              "arrival": "20:10 TLV (נתב\"ג)",
+              "duration": "שעה אחת",
+              "notes": "יום טיול שלם בפאפוס לפני החזרת הרכב בשדה"
+            }
+          },
+          "accommodation": {
+            "name": "Brown Paphos Hills Resort & Spa",
+            "type": "מלון בוטיק וספא כשר",
+            "location": "Geroskipou, Paphos Hills (כ-15 דקות משדה התעופה)",
+            "amenities": [
+              "סוכה מרכזית כשרה ותפילות חג",
+              "מסעדות שף כשרות (בשרית וחלבית)",
+              "4 בריכות שחייה כולל בריכת פעוטות ובריכה מקורה",
+              "מועדון ילדים (Kids Club) ושטחי דשא ירוקים"
+            ],
+            "roomType": "Deluxe Garden / Family Suite מתאימה להורים + 2 פעוטות"
+          },
+          "itinerary": [
+            {
+              "dayNumber": 1,
+              "date": "2026-09-23",
+              "dayOfWeek": "רביעי",
+              "title": "נחיתה, קבלת רכב והתאקלמות בריזורט",
+              "description": "המראה מנתב\"ג ב-15:40, נחיתה בפאפוס ב-16:50. איסוף רכב מהיר ונסיעה קצרה (15 דק') לריזורט Brown Paphos Hills. פריקת מזוודות, שקיעה ראשונה וארוחת ערב בריזורט.",
+              "toddlerTip": "נסיעה סופר קצרה מהשדה שמונעת עייפות ועצבנות של הקטנטנים."
+            },
+            {
+              "dayNumber": 2,
+              "date": "2026-09-24",
+              "dayOfWeek": "חמישי",
+              "title": "יום פינוק בריזורט והתארגנות לחג",
+              "description": "יום בריכות רגוע בריזורט, ביקור במועדון הילדים, טיול רגלי קצר בגני המלון והיערכות לאווירת החג.",
+              "toddlerTip": "זמן מושלם לשנ\"צ איכותי בחדר ולכניסה לקצב של חופשה."
+            },
+            {
+              "dayNumber": 3,
+              "date": "2026-09-25",
+              "dayOfWeek": "שישי",
+              "title": "ערב סוכות – הדלקת נרות וכניסת החג",
+              "description": "הכנות לחג, תפילות חג בסוכה המרכזית וסעודת ליל יום טוב משפחתית ומפוארת.",
+              "toddlerTip": "סוכה רחבה ומרווחת שמאפשרת ישיבה נוחה עם עגלות."
+            },
+            {
+              "dayNumber": 4,
+              "date": "2026-09-26",
+              "dayOfWeek": "שבת",
+              "title": "יום טוב ראשון של סוכות ושבת חג",
+              "description": "יום מנוחה, קדושה ומשפחה. סעודות חג בסוכה, משחקים במדשאות הריזורט ומנוחה מלאה.",
+              "toddlerTip": "אווירה שקטה ובטוחה לילדים במתחם המלון ללא כלי רכב."
+            },
+            {
+              "dayNumber": 5,
+              "date": "2026-09-27",
+              "dayOfWeek": "ראשון",
+              "title": "חוף קורל ביי ומערות הים של פייה",
+              "travelTime": "כ-30 דקות",
+              "activities": [
+                "בוקר בחוף Coral Bay: חול רך, כניסה מתונה למים ומפרץ מוגן מרוחות.",
+                "חזרה לשנ\"צ קל בריזורט או ארוחת צהריים.",
+                "אחה\"צ: ביקור במערות הים (Sea Caves) וצפייה באונייה הטרופה Edro III בטיילת העליונה."
+              ],
+              "strollerFriendly": true,
+              "toddlerTip": "להצטייד בדלי וכף לקורל ביי. בטיילת המערות הולכים בנוחות עם עגלה (לא לרדת לסלעים עם פעוטות)."
+            },
+            {
+              "dayNumber": 6,
+              "date": "2026-09-28",
+              "dayOfWeek": "שני",
+              "title": "חצי האי אקאמס: מרחצאות אפרודיטה ונמל לאצ'י",
+              "travelTime": "כ-50 דקות",
+              "activities": [
+                "ביקור בגנים הבוטניים ובמרחצאות אפרודיטה (Baths of Aphrodite) בצל עצי תאנה ואקליפטוס.",
+                "ירידה לנמל הציורי לאצ'י (Latsi Marina).",
+                "שייט רגוע בסירת זכוכית מוצלת (Glass Bottom Boat) אל הלגונה הכחולה (שעה וחצי)."
+              ],
+              "strollerFriendly": true,
+              "toddlerTip": "סירות הזכוכית בלאצ'י מציעות גגון מלא וישיבה מוגנת שמרתקת פעוטות שרואים דגים מתחת לסירה."
+            },
+            {
+              "dayNumber": 7,
+              "date": "2026-09-29",
+              "dayOfWeek": "שלישי",
+              "title": "הגשר הונציאני צלפוס ויער פאפוס",
+              "travelTime": "כ-45 דקות",
+              "activities": [
+                "נסיעה בתוך יער פאפוס הירוק אל הגשר הונציאני העתיק Tzelefos Bridge.",
+                "שכשוך רגליים בפלג המים הזורם ומוצל בעצי דולב ענקיים.",
+                "פיקניק בטבע בפינת היער.",
+                "עצירת תצפית נוף מרהיבה על אגם וסכר אספרוקרמוס (Asprokremmos Reservoir)."
+              ],
+              "strollerFriendly": false,
+              "toddlerTip": "להביא סנדלי מים/נעליים סגורות למים ובגדי החלפה. השבילים סביב הגשר נוחים למנשא."
+            },
+            {
+              "dayNumber": 8,
+              "date": "2026-09-30",
+              "dayOfWeek": "רביעי",
+              "title": "בריכות ומפלי אדוניס / שמורת חוף לארה",
+              "travelTime": "כ-45 דקות",
+              "activities": [
+                "טיול מוצל במפלי אדוניס (Adonis Baths) עם בריכות טבעיות וצמחייה עבותה.",
+                "לחילופין: נסיעה איטית לשמורת חוף לארה (Lara Beach) – תצפית על אזורי הטלת צבי הים וטבע בתולי לחלוטין."
+              ],
+              "strollerFriendly": false,
+              "toddlerTip": "מומלץ מנשא גב/בטן לבת השנתיים; בן ה-4 ייהנה מההליכה והגילוי בטבע."
+            },
+            {
+              "dayNumber": 9,
+              "date": "2026-10-01",
+              "dayOfWeek": "חמישי",
+              "title": "הרי הטרודוס הנמוכים: כפר האבן הציורי אומודוס",
+              "travelTime": "כ-50 דקות",
+              "activities": [
+                "עלייה מתונה להרים לאוויר הרים צלול וקריר בכפר המסורתי אומודוס (Omodos).",
+                "שיטוט בסמטאות המרוצפות אבן, ביקור במנזר ההיסטורי ובכיכר המרכזית הרחבה.",
+                "טעימת מאפי שמרים חמים (ארקאטנה) ובתי קפה מסורתיים תחת עצי הדולב."
+              ],
+              "strollerFriendly": true,
+              "toddlerTip": "הכיכר המרכזית חסומה לרכבים – הילדים יכולים לרוץ חופשי. שווה לקחת עליונית קלה כי קריר יותר בהרים."
+            },
+            {
+              "dayNumber": 10,
+              "date": "2026-10-02",
+              "dayOfWeek": "שישי",
+              "title": "הושענא רבה וערב שמחת תורה",
+              "description": "הכנות לחג השני, שחייה בבריכת הריזורט, תפילות חג בסוכה והקפות שמחת תורה מרגשות.",
+              "toddlerTip": "אווירת חג משפחתית ושמחה בריזורט."
+            },
+            {
+              "dayNumber": 11,
+              "date": "2026-10-03",
+              "dayOfWeek": "שבת",
+              "title": "שמחת תורה ושבת חול המועד",
+              "description": "סעודות חג חגיגיות, ריקודים, שבת מנוחה מלאה יחד עם המשפחה במלון.",
+              "toddlerTip": "מתקני הילדים והבריכות המחוממות עומדים לרשות המשפחה."
+            },
+            {
+              "dayNumber": 12,
+              "date": "2026-10-04",
+              "dayOfWeek": "ראשון",
+              "title": "סלע אפרודיטה, טיילת נמל פאפוס וטיסה הביתה",
+              "travelTime": "כ-15-20 דקות",
+              "activities": [
+                "צ'ק אאוט רגוע ואחסון מזוודות ברכב.",
+                "נסיעה של 15 דק' לסלע אפרודיטה (Petra tou Romiou) – תצפית נוף מרהיבה על הים הטורקיז וחוף חלוקי אבן.",
+                "צהריים בטיילת נמל פאפוס ליד המצודה העתיקה (Paphos Harbour Castle) – הליכה מישורית ונעימה עם עגלה.",
+                "17:00: הגעה קלילה לנמל התעופה בפאפוס, החזרת הרכב ובידוק.",
+                "19:10: המראה לתל אביב (נחיתה ב-20:10)."
+              ],
+              "strollerFriendly": true,
+              "toddlerTip": "יום קליל וקרוב מאוד לשדה, בלי שום לחץ של פקקים או נסיעות ארוכות."
+            }
+          ],
+          "packingAndGearChecklist": [
+            "מנשא בד/גב איכותי לבת השנתיים (קריטי למסלולי הטבע והשבילים)",
+            "טיולון/עגלה קלה ומתקפלת לטיילות, לנמל ולחוף קורל ביי",
+            "סנדלי מים סגורים לשני הילדים (לשכשוך בגשר צלפוס ובחופים)",
+            "בגדי ים עם שרוול ארוך UV, כובעי שמש ומסנני קרינה",
+            "דלי, כפות ומשחקי חול מתנפחים לחוף",
+            "עליוניות/קרדיגנים קלים לשעות הערב ולהרי הטרודוס"
+          ]
+        };
+
+        createApp({
+            setup() {
+                const formatDate = (dateStr) => {
+                    const parts = dateStr.split('-');
+                    const date = new Date(parts[0], parts[1] - 1, parts[2]);
+                    return date.toLocaleDateString('he-IL', { day: 'numeric', month: 'long' });
+                };
+
+                return {
+                    ...tripData,
+                    formatDate
+                }
+            }
+        }).mount('#app')
+    </script>
+</body>
+</html>
