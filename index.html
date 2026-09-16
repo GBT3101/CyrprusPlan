@@ -150,7 +150,7 @@
                         <div class="p-6 md:p-8 space-y-6">
                             <h4 class="text-2xl font-extrabold text-slate-800 dark:text-slate-100">{{ day.title }}</h4>
                             
-                            <!-- Badges -->
+                            <!-- Badges & Action Buttons -->
                             <div class="flex flex-wrap gap-3">
                                 <span v-if="day.travelTime" class="bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300 text-sm px-3 py-1.5 rounded-lg flex items-center gap-2 font-medium">
                                     <span>🚗</span> נסיעה: {{ day.travelTime }}
@@ -161,10 +161,10 @@
                                     <span>{{ day.strollerFriendly ? '👶' : '⚠️' }}</span>
                                     {{ day.strollerFriendly ? 'נגיש לעגלה' : 'לא נגיש לעגלה (מומלץ מנשא)' }}
                                 </span>
-                                <!-- Google Maps Open Button (Fallback) -->
+                                <!-- Google Maps Open Button -->
                                 <a v-if="day.route" :href="getMapLinkUrl(day)" target="_blank" 
-                                   class="bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 border border-blue-200 dark:border-blue-800 text-sm px-3 py-1.5 rounded-lg flex items-center gap-2 font-bold hover:bg-blue-100 dark:hover:bg-blue-800/50 transition-colors">
-                                    <span>↗️</span> פתח באפליקציית Maps
+                                   class="bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 border border-blue-200 dark:border-blue-800 text-sm px-3 py-1.5 rounded-lg flex items-center gap-2 font-bold hover:bg-blue-100 dark:hover:bg-blue-800/50 transition-colors shadow-sm">
+                                    <span>🧭</span> פתח מסלול ב-Maps
                                 </a>
                             </div>
 
@@ -181,26 +181,6 @@
                                         <span class="leading-relaxed">{{ act }}</span>
                                     </li>
                                 </ul>
-                            </div>
-
-                            <!-- Embedded Google Maps Widget -->
-                            <div v-if="day.route" class="mt-6 w-full h-72 md:h-96 rounded-xl overflow-hidden border border-slate-200 dark:border-slate-700 shadow-sm relative bg-slate-100 dark:bg-slate-800/50 flex flex-col items-center justify-center">
-                                
-                                <!-- Placeholder shown if no API key is provided -->
-                                <div v-if="!googleMapsApiKey" class="absolute inset-0 flex flex-col items-center justify-center text-center p-6 z-0">
-                                    <span class="text-4xl mb-3">🗺️</span>
-                                    <p class="font-bold text-slate-700 dark:text-slate-300">ווידג'ט ניווט</p>
-                                    <p class="text-sm text-slate-500 dark:text-slate-400 mt-2 max-w-sm">יש להכניס מפתח Google Maps API (Embed API) בקוד ה-HTML כדי להציג את מפת המסלול כאן.</p>
-                                </div>
-                                
-                                <!-- The actual map iframe -->
-                                <iframe v-else
-                                    class="absolute inset-0 z-10 w-full h-full"
-                                    style="border:0"
-                                    loading="lazy"
-                                    allowfullscreen
-                                    :src="getEmbedUrl(day)">
-                                </iframe>
                             </div>
 
                             <!-- Toddler Tip Alert -->
@@ -327,11 +307,6 @@
     <script>
         const { createApp, ref, onMounted } = Vue;
 
-        // ==========================================
-        // ⚠️ INSERT YOUR GOOGLE MAPS API KEY HERE ⚠️
-        // ==========================================
-        const googleMapsApiKey = ''; // e.g. 'AIzaSyA...'
-
         const tripData = {
           "tripInfo": {
             "title": "חופשת סוכות משפחתית – פאפוס, קפריסין 2026",
@@ -395,7 +370,7 @@
               "type": "travel_and_checkin",
               "title": "נחיתה באור יום, איסוף רכב והתאקלמות בריזורט",
               "travelTime": "15 דקות מהשדה למלון",
-              "imageUrl": "https://images.unsplash.com/photo-1551855217-19ad0959424c?auto=format&fit=crop&w=1200&q=80",
+              "imageUrl": "https://picsum.photos/seed/cyprus_resort/1200/800",
               "activities": [
                 "המראה ב-15:40 מנתב\"ג, נחיתה ב-16:50 בפאפוס.",
                 "איסוף רכב מהיר בשדה ונסיעה קצרה לריזורט Brown Paphos Hills.",
@@ -415,7 +390,7 @@
               "type": "trip_and_holiday_eve",
               "title": "בוקר של חול זהוב בקורל ביי והכנות לחג",
               "travelTime": "כ-30 דקות",
-              "imageUrl": "https://images.unsplash.com/photo-1621274384592-386663f733eb?auto=format&fit=crop&w=1200&q=80",
+              "imageUrl": "https://picsum.photos/seed/cyprus_beach/1200/800",
               "activities": [
                 "בילוי בוקר בחוף Coral Bay: מפרץ שקט, כניסה מתונה למים וחול נעים.",
                 "חזרה לריזורט עד 13:30 למקלחות ושנ\"צ.",
@@ -435,7 +410,7 @@
               "type": "holiday_shabbat",
               "title": "שבת חג ראשון של סוכות בריזורט",
               "travelTime": "ללא נסיעות",
-              "imageUrl": "https://images.unsplash.com/photo-1582610116397-edb318620f90?auto=format&fit=crop&w=1200&q=80",
+              "imageUrl": "https://picsum.photos/seed/cyprus_pool/1200/800",
               "activities": [
                 "תפילות חג וסעודות שבת חגיגיות בסוכה.",
                 "מנוחה, משחקים במדשאות הבטוחות של הריזורט וזמן בריכה רגוע."
@@ -450,7 +425,7 @@
               "type": "trip_day",
               "title": "חצי האי אקאמס: מרחצאות אפרודיטה ונמל לאצ'י",
               "travelTime": "כ-50 דקות",
-              "imageUrl": "https://images.unsplash.com/photo-1632731818228-39294e073c4d?auto=format&fit=crop&w=1200&q=80",
+              "imageUrl": "https://picsum.photos/seed/cyprus_boat/1200/800",
               "activities": [
                 "הליכה מוצלת בשבילי הגנים הבוטניים של מרחצאות אפרודיטה (Baths of Aphrodite).",
                 "ירידה לנמל הציורי של לאצ'י (Latsi Marina).",
@@ -471,7 +446,7 @@
               "type": "trip_day",
               "title": "יער פאפוס, הגשר הונציאני צלפוס וסכר אספרוקרמוס",
               "travelTime": "כ-45 דקות",
-              "imageUrl": "https://images.unsplash.com/photo-1542385151-efd9000785a0?auto=format&fit=crop&w=1200&q=80",
+              "imageUrl": "https://picsum.photos/seed/cyprus_forest/1200/800",
               "activities": [
                 "נסיעה ביער פאפוס הירוק אל הגשר הונציאני Tzelefos Bridge.",
                 "שכשוך רגליים בפלג מים רדוד ומוצל בעצי דולב ענקיים.",
@@ -493,7 +468,7 @@
               "type": "trip_day",
               "title": "הרי הטרודוס הנמוכים: כפר האבן אומודוס",
               "travelTime": "כ-50 דקות",
-              "imageUrl": "https://images.unsplash.com/photo-1533615438848-185d263fa707?auto=format&fit=crop&w=1200&q=80",
+              "imageUrl": "https://picsum.photos/seed/cyprus_village/1200/800",
               "activities": [
                 "נסיעה מתונה להרים לאוויר קריר ונעים בכפר המסורתי אומודוס (Omodos).",
                 "שיטוט בסמטאות אבן ציוריות וכיכר מרכזית מרוצפת ורחבה.",
@@ -513,7 +488,7 @@
               "type": "trip_day",
               "title": "מערות הים של פייה, האונייה הטרופה ופינוק בריזורט",
               "travelTime": "כ-30 דקות",
-              "imageUrl": "https://images.unsplash.com/photo-1599388377750-8b1e4c7b80a5?auto=format&fit=crop&w=1200&q=80",
+              "imageUrl": "https://picsum.photos/seed/cyprus_caves/1200/800",
               "activities": [
                 "טיול לאורך הטיילת העליונה של מערות הים (Sea Caves) ותצפית על האונייה הטרופה Edro III.",
                 "חזרה למלון לצהריים, שחייה בבריכת הילדים ופעילות במועדון הילדים של הריזורט."
@@ -533,7 +508,7 @@
               "type": "trip_and_departure",
               "title": "סלע אפרודיטה, טיילת נמל פאפוס וטיסה הביתה",
               "travelTime": "15-20 דקות",
-              "imageUrl": "https://images.unsplash.com/photo-1623861294872-4b2a3fa99b4a?auto=format&fit=crop&w=1200&q=80",
+              "imageUrl": "https://picsum.photos/seed/cyprus_rocks/1200/800",
               "activities": [
                 "צ'ק אאוט רגוע והעמסת מזוודות לרכב.",
                 "ביקור בתצפית סלע אפרודיטה (Petra tou Romiou) – מפרץ טורקיז מרהיב לצילום וטבילת רגליים.",
@@ -591,17 +566,6 @@
                     }
                 };
 
-                const getEmbedUrl = (day) => {
-                    if (!day.route || !googleMapsApiKey) return '';
-                    let url = `https://www.google.com/maps/embed/v1/directions?key=${googleMapsApiKey}`;
-                    url += `&origin=${encodeURIComponent(day.route.origin)}`;
-                    url += `&destination=${encodeURIComponent(day.route.destination)}`;
-                    if (day.route.waypoints) {
-                        url += `&waypoints=${encodeURIComponent(day.route.waypoints)}`;
-                    }
-                    return url;
-                };
-
                 const getMapLinkUrl = (day) => {
                     if (!day.route) return '';
                     let url = `https://www.google.com/maps/dir/?api=1`;
@@ -635,8 +599,6 @@
                     getWeatherEmoji,
                     isDark,
                     toggleDarkMode,
-                    googleMapsApiKey,
-                    getEmbedUrl,
                     getMapLinkUrl
                 }
             }
