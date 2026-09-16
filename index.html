@@ -113,7 +113,7 @@
                 </section>
 
                 <!-- Detailed Daily Cards -->
-                <div id="itinerary" class="space-y-6 pt-4">
+                <div id="itinerary" class="space-y-8 pt-4">
                     <h3 class="text-2xl font-bold mb-2 flex items-center gap-2 px-2 text-slate-900 dark:text-white">
                         <span>📖</span> פירוט ימים
                     </h3>
@@ -121,8 +121,15 @@
                     <section v-for="(day, index) in itinerary" :key="day.dayNumber" :id="'day-' + day.dayNumber" 
                              class="bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700 overflow-hidden transition-all hover:shadow-md">
                         
+                        <!-- Destination Image (Hero style) -->
+                        <div v-if="day.imageUrl" class="w-full h-48 md:h-72 overflow-hidden bg-slate-200 dark:bg-slate-700 relative">
+                            <img :src="day.imageUrl" :alt="day.title" class="w-full h-full object-cover hover:scale-105 transition-transform duration-700">
+                            <!-- Overlay Gradient for better header legibility if needed -->
+                            <div class="absolute inset-0 bg-gradient-to-t from-slate-900/40 to-transparent"></div>
+                        </div>
+                        
                         <!-- Card Header & Weather -->
-                        <div class="bg-slate-50 dark:bg-slate-800/50 border-b border-slate-100 dark:border-slate-700 p-5 flex flex-col md:flex-row md:justify-between md:items-center gap-4">
+                        <div class="bg-slate-50 dark:bg-slate-800/80 border-b border-slate-100 dark:border-slate-700 p-5 flex flex-col md:flex-row md:justify-between md:items-center gap-4 relative">
                             <h3 class="text-xl font-bold text-slate-900 dark:text-white flex flex-wrap items-center gap-3">
                                 <span class="bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 text-slate-700 dark:text-slate-200 text-sm px-3 py-1 rounded-full shadow-sm">
                                     יום {{ day.dayNumber }}
@@ -143,14 +150,8 @@
                         <div class="p-6 md:p-8 space-y-6">
                             <h4 class="text-2xl font-extrabold text-slate-800 dark:text-slate-100">{{ day.title }}</h4>
                             
-                            <!-- Actions / Maps / Badges -->
+                            <!-- Badges -->
                             <div class="flex flex-wrap gap-3">
-                                <!-- Google Maps Button -->
-                                <a v-if="day.mapUrl" :href="day.mapUrl" target="_blank" 
-                                   class="bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 border border-blue-200 dark:border-blue-800 text-sm px-3 py-1.5 rounded-lg flex items-center gap-2 font-bold hover:bg-blue-100 dark:hover:bg-blue-800/50 transition-colors">
-                                    <span>🧭</span> נווט במסלול היומי ב-Maps
-                                </a>
-
                                 <span v-if="day.travelTime" class="bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300 text-sm px-3 py-1.5 rounded-lg flex items-center gap-2 font-medium">
                                     <span>🚗</span> נסיעה: {{ day.travelTime }}
                                 </span>
@@ -160,6 +161,11 @@
                                     <span>{{ day.strollerFriendly ? '👶' : '⚠️' }}</span>
                                     {{ day.strollerFriendly ? 'נגיש לעגלה' : 'לא נגיש לעגלה (מומלץ מנשא)' }}
                                 </span>
+                                <!-- Google Maps Open Button (Fallback) -->
+                                <a v-if="day.route" :href="getMapLinkUrl(day)" target="_blank" 
+                                   class="bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 border border-blue-200 dark:border-blue-800 text-sm px-3 py-1.5 rounded-lg flex items-center gap-2 font-bold hover:bg-blue-100 dark:hover:bg-blue-800/50 transition-colors">
+                                    <span>↗️</span> פתח באפליקציית Maps
+                                </a>
                             </div>
 
                             <p v-if="day.description" class="text-slate-600 dark:text-slate-300 leading-relaxed text-lg">{{ day.description }}</p>
@@ -175,6 +181,26 @@
                                         <span class="leading-relaxed">{{ act }}</span>
                                     </li>
                                 </ul>
+                            </div>
+
+                            <!-- Embedded Google Maps Widget -->
+                            <div v-if="day.route" class="mt-6 w-full h-72 md:h-96 rounded-xl overflow-hidden border border-slate-200 dark:border-slate-700 shadow-sm relative bg-slate-100 dark:bg-slate-800/50 flex flex-col items-center justify-center">
+                                
+                                <!-- Placeholder shown if no API key is provided -->
+                                <div v-if="!googleMapsApiKey" class="absolute inset-0 flex flex-col items-center justify-center text-center p-6 z-0">
+                                    <span class="text-4xl mb-3">🗺️</span>
+                                    <p class="font-bold text-slate-700 dark:text-slate-300">ווידג'ט ניווט</p>
+                                    <p class="text-sm text-slate-500 dark:text-slate-400 mt-2 max-w-sm">יש להכניס מפתח Google Maps API (Embed API) בקוד ה-HTML כדי להציג את מפת המסלול כאן.</p>
+                                </div>
+                                
+                                <!-- The actual map iframe -->
+                                <iframe v-else
+                                    class="absolute inset-0 z-10 w-full h-full"
+                                    style="border:0"
+                                    loading="lazy"
+                                    allowfullscreen
+                                    :src="getEmbedUrl(day)">
+                                </iframe>
                             </div>
 
                             <!-- Toddler Tip Alert -->
@@ -208,16 +234,12 @@
                                     </div>
                                 </div>
                                 <div class="flex items-start gap-3">
-                                    <span class="text-xl mt-0.5">🛏️</span>
+                                    <span class="text-xl mt-0.5">💰</span>
                                     <div>
-                                        <div class="font-bold text-slate-700 dark:text-slate-300">סוג חדר</div>
-                                        <div class="text-slate-600 dark:text-slate-400">{{ accommodation.roomType }}</div>
+                                        <div class="font-bold text-slate-700 dark:text-slate-300">טווח מחירים משוער</div>
+                                        <div class="text-slate-600 dark:text-slate-400">{{ accommodation.estimatedPriceRange }}</div>
                                     </div>
                                 </div>
-                                <a href="https://www.google.com/maps/search/?api=1&query=Brown+Paphos+Hills+Resort" target="_blank" 
-                                   class="inline-flex bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-200 text-sm px-4 py-2 rounded-lg items-center gap-2 font-bold hover:bg-slate-200 dark:hover:bg-slate-600 transition-colors mt-2">
-                                    <span>📍</span> פתח במפה
-                                </a>
                             </div>
                         </div>
                         <div class="bg-slate-50 dark:bg-slate-800/50 p-6 rounded-xl border border-slate-100 dark:border-slate-700">
@@ -305,24 +327,52 @@
     <script>
         const { createApp, ref, onMounted } = Vue;
 
+        // ==========================================
+        // ⚠️ INSERT YOUR GOOGLE MAPS API KEY HERE ⚠️
+        // ==========================================
+        const googleMapsApiKey = ''; // e.g. 'AIzaSyA...'
+
         const tripData = {
           "tripInfo": {
             "title": "חופשת סוכות משפחתית – פאפוס, קפריסין 2026",
-            "subtitle": "משפחתנו בריזורט Brown Paphos Hills",
-            "dates": { "start": "2026-09-23", "end": "2026-10-04", "totalNights": 11 },
+            "subtitle": "Brown Paphos Hills Resort & Spa",
+            "dates": {
+              "start": "2026-09-24",
+              "end": "2026-10-01",
+              "totalNights": 7
+            },
+            "travelers": {
+              "adults": 2,
+              "children": [
+                {"name": "ילד", "age": 4},
+                {"name": "ילדה", "age": 2}
+              ]
+            },
             "destination": "פאפוס, קפריסין",
+            "carRental": {
+              "status": "רכב צמוד מנמל התעופה פאפוס (PFO)",
+              "notes": "איסוף והחזרה ישירות בשדה"
+            }
           },
           "flights": {
             "airline": "ישראייר (Israir)",
             "outbound": {
-              "date": "2026-09-23", "dayOfWeek": "יום ד'", "flightNumber": "6H595",
-              "departure": "15:40 TLV (נתב\"ג)", "arrival": "16:50 PFO (פאפוס)", "duration": "שעה ו-10 דק'",
-              "notes": "נחיתה נוחה אחה\"צ, איסוף רכב והגעה מהירה למלון"
+              "date": "2026-09-24",
+              "dayOfWeek": "יום ה'",
+              "flightNumber": "6H595",
+              "departure": "15:40 TLV (נתב\"ג)",
+              "arrival": "16:50 PFO (פאפוס)",
+              "duration": "שעה ו-10 דק'",
+              "notes": "נחיתה נוחה באור יום אחה\"צ, איסוף רכב והגעה למלון"
             },
             "inbound": {
-              "date": "2026-10-04", "dayOfWeek": "יום א'", "flightNumber": "6H596",
-              "departure": "19:10 PFO (פאפוס)", "arrival": "20:10 TLV (נתב\"ג)", "duration": "שעה אחת",
-              "notes": "יום טיול שלם בפאפוס לפני החזרת הרכב בשדה"
+              "date": "2026-10-01",
+              "dayOfWeek": "יום ה'",
+              "flightNumber": "6H596",
+              "departure": "אחה\"צ / ערב מפאפוס (PFO)",
+              "arrival": "נתב\"ג (TLV)",
+              "duration": "שעה אחת",
+              "notes": "מאפשר ניצול של שעות הבוקר והצהריים המוקדמות לטיול לפני ההגעה לשדה"
             }
           },
           "accommodation": {
@@ -330,139 +380,182 @@
             "type": "מלון בוטיק וספא כשר",
             "location": "Geroskipou, Paphos Hills (כ-15 דקות משדה התעופה)",
             "amenities": [
-              "סוכה מרכזית כשרה ותפילות חג",
-              "מסעדות שף כשרות (בשרית וחלבית)",
-              "4 בריכות שחייה כולל בריכת פעוטות ובריכה מקורה",
-              "מועדון ילדים (Kids Club) ושטחי דשא ירוקים"
+              "סוכה מרכזית כשרה, תפילות וארוחות חג",
+              "4 בריכות שחייה (כולל בריכת פעוטות ייעודית ובריכה מקורה)",
+              "מועדון ילדים (Kids Club) ומדשאות רחבות",
+              "מסעדות שף כשרות"
             ],
-            "roomType": "Deluxe Garden / Family Suite מתאימה להורים + 2 פעוטות"
+            "estimatedPriceRange": "€3,600 – €5,300 (חצי פנסיון כשר לחג ל-7 לילות, בהתאם לסוג החדר)"
           },
           "itinerary": [
             {
-              "dayNumber": 1, "date": "2026-09-23", "dayOfWeek": "רביעי",
-              "title": "נחיתה, קבלת רכב והתאקלמות בריזורט",
-              "description": "המראה מנתב\"ג ב-15:40, נחיתה בפאפוס ב-16:50. איסוף רכב מהיר ונסיעה קצרה (15 דק') לריזורט Brown Paphos Hills. פריקת מזוודות, שקיעה ראשונה וארוחת ערב בריזורט.",
-              "toddlerTip": "נסיעה סופר קצרה מהשדה שמונעת עייפות ועצבנות של הקטנטנים.",
-              "mapUrl": "https://www.google.com/maps/dir/?api=1&origin=Paphos+International+Airport&destination=Brown+Paphos+Hills&travelmode=driving"
-            },
-            {
-              "dayNumber": 2, "date": "2026-09-24", "dayOfWeek": "חמישי",
-              "title": "יום פינוק בריזורט והתארגנות לחג",
-              "description": "יום בריכות רגוע בריזורט, ביקור במועדון הילדים, טיול רגלי קצר בגני המלון והיערכות לאווירת החג.",
-              "toddlerTip": "זמן מושלם לשנ\"צ איכותי בחדר ולכניסה לקצב של חופשה."
-            },
-            {
-              "dayNumber": 3, "date": "2026-09-25", "dayOfWeek": "שישי",
-              "title": "ערב סוכות – הדלקת נרות וכניסת החג",
-              "description": "הכנות לחג, תפילות חג בסוכה המרכזית וסעודת ליל יום טוב משפחתית ומפוארת.",
-              "toddlerTip": "סוכה רחבה ומרווחת שמאפשרת ישיבה נוחה עם עגלות."
-            },
-            {
-              "dayNumber": 4, "date": "2026-09-26", "dayOfWeek": "שבת",
-              "title": "יום טוב ראשון של סוכות ושבת חג",
-              "description": "יום מנוחה, קדושה ומשפחה. סעודות חג בסוכה, משחקים במדשאות הריזורט ומנוחה מלאה.",
-              "toddlerTip": "אווירה שקטה ובטוחה לילדים במתחם המלון ללא כלי רכב."
-            },
-            {
-              "dayNumber": 5, "date": "2026-09-27", "dayOfWeek": "ראשון",
-              "title": "חוף קורל ביי ומערות הים של פייה",
-              "travelTime": "כ-30 דקות",
+              "dayNumber": 1,
+              "date": "2026-09-24",
+              "dayOfWeek": "חמישי",
+              "type": "travel_and_checkin",
+              "title": "נחיתה באור יום, איסוף רכב והתאקלמות בריזורט",
+              "travelTime": "15 דקות מהשדה למלון",
+              "imageUrl": "https://images.unsplash.com/photo-1551855217-19ad0959424c?auto=format&fit=crop&w=1200&q=80",
               "activities": [
-                "בוקר בחוף Coral Bay: חול רך, כניסה מתונה למים ומפרץ מוגן מרוחות.",
-                "חזרה לשנ\"צ קל בריזורט או ארוחת צהריים.",
-                "אחה\"צ: ביקור במערות הים (Sea Caves) וצפייה באונייה הטרופה Edro III בטיילת העליונה."
+                "המראה ב-15:40 מנתב\"ג, נחיתה ב-16:50 בפאפוס.",
+                "איסוף רכב מהיר בשדה ונסיעה קצרה לריזורט Brown Paphos Hills.",
+                "צ'ק אין, פריקת ציוד וארוחת ערב רגועה בריזורט."
               ],
               "strollerFriendly": true,
-              "toddlerTip": "להצטייד בדלי וכף לקורל ביי. בטיילת המערות הולכים בנוחות עם עגלה (לא לרדת לסלעים עם פעוטות).",
-              "mapUrl": "https://www.google.com/maps/dir/?api=1&origin=Brown+Paphos+Hills&waypoints=Coral+Bay&destination=Sea+Caves+Peyia&travelmode=driving"
+              "toddlerTip": "זמן נסיעה קצרצר שמונע אי-שקט של הילדים לאחר הטיסה.",
+              "route": {
+                  "origin": "Paphos International Airport",
+                  "destination": "Brown Paphos Hills Resort"
+              }
             },
             {
-              "dayNumber": 6, "date": "2026-09-28", "dayOfWeek": "שני",
+              "dayNumber": 2,
+              "date": "2026-09-25",
+              "dayOfWeek": "שישי",
+              "type": "trip_and_holiday_eve",
+              "title": "בוקר של חול זהוב בקורל ביי והכנות לחג",
+              "travelTime": "כ-30 דקות",
+              "imageUrl": "https://images.unsplash.com/photo-1621274384592-386663f733eb?auto=format&fit=crop&w=1200&q=80",
+              "activities": [
+                "בילוי בוקר בחוף Coral Bay: מפרץ שקט, כניסה מתונה למים וחול נעים.",
+                "חזרה לריזורט עד 13:30 למקלחות ושנ\"צ.",
+                "התארגנות, הדלקת נרות, תפילת חג וסעודת ליל יום טוב ראשון בסוכה."
+              ],
+              "strollerFriendly": true,
+              "toddlerTip": "להצטייד בדלי וכפות לחוף; חזרה מוקדמת מונעת עייפות לקראת סעודת החג בערב.",
+              "route": {
+                  "origin": "Brown Paphos Hills Resort",
+                  "destination": "Coral Bay"
+              }
+            },
+            {
+              "dayNumber": 3,
+              "date": "2026-09-26",
+              "dayOfWeek": "שבת",
+              "type": "holiday_shabbat",
+              "title": "שבת חג ראשון של סוכות בריזורט",
+              "travelTime": "ללא נסיעות",
+              "imageUrl": "https://images.unsplash.com/photo-1582610116397-edb318620f90?auto=format&fit=crop&w=1200&q=80",
+              "activities": [
+                "תפילות חג וסעודות שבת חגיגיות בסוכה.",
+                "מנוחה, משחקים במדשאות הבטוחות של הריזורט וזמן בריכה רגוע."
+              ],
+              "strollerFriendly": true,
+              "toddlerTip": "המתחם סגור ובטוח לתנועת פעוטות ללא כלי רכב."
+            },
+            {
+              "dayNumber": 4,
+              "date": "2026-09-27",
+              "dayOfWeek": "ראשון",
+              "type": "trip_day",
               "title": "חצי האי אקאמס: מרחצאות אפרודיטה ונמל לאצ'י",
               "travelTime": "כ-50 דקות",
+              "imageUrl": "https://images.unsplash.com/photo-1632731818228-39294e073c4d?auto=format&fit=crop&w=1200&q=80",
               "activities": [
-                "ביקור בגנים הבוטניים ובמרחצאות אפרודיטה (Baths of Aphrodite) בצל עצי תאנה ואקליפטוס.",
-                "ירידה לנמל הציורי לאצ'י (Latsi Marina).",
+                "הליכה מוצלת בשבילי הגנים הבוטניים של מרחצאות אפרודיטה (Baths of Aphrodite).",
+                "ירידה לנמל הציורי של לאצ'י (Latsi Marina).",
                 "שייט רגוע בסירת זכוכית מוצלת (Glass Bottom Boat) אל הלגונה הכחולה (שעה וחצי)."
               ],
               "strollerFriendly": true,
-              "toddlerTip": "סירות הזכוכית בלאצ'י מציעות גגון מלא וישיבה מוגנת שמרתקת פעוטות שרואים דגים מתחת לסירה.",
-              "mapUrl": "https://www.google.com/maps/dir/?api=1&origin=Brown+Paphos+Hills&waypoints=Baths+of+Aphrodite&destination=Latchi+Marina&travelmode=driving"
+              "toddlerTip": "סירות הזכוכית מוצלות לחלוטין ומרתקות פעוטות בזכות קרקעית הזכוכית השקופה.",
+              "route": {
+                  "origin": "Brown Paphos Hills Resort",
+                  "waypoints": "Baths of Aphrodite",
+                  "destination": "Latchi Marina"
+              }
             },
             {
-              "dayNumber": 7, "date": "2026-09-29", "dayOfWeek": "שלישי",
-              "title": "הגשר הונציאני צלפוס ויער פאפוס",
+              "dayNumber": 5,
+              "date": "2026-09-28",
+              "dayOfWeek": "שני",
+              "type": "trip_day",
+              "title": "יער פאפוס, הגשר הונציאני צלפוס וסכר אספרוקרמוס",
               "travelTime": "כ-45 דקות",
+              "imageUrl": "https://images.unsplash.com/photo-1542385151-efd9000785a0?auto=format&fit=crop&w=1200&q=80",
               "activities": [
-                "נסיעה בתוך יער פאפוס הירוק אל הגשר הונציאני העתיק Tzelefos Bridge.",
-                "שכשוך רגליים בפלג המים הזורם ומוצל בעצי דולב ענקיים.",
-                "פיקניק בטבע בפינת היער.",
-                "עצירת תצפית נוף מרהיבה על אגם וסכר אספרוקרמוס (Asprokremmos Reservoir)."
+                "נסיעה ביער פאפוס הירוק אל הגשר הונציאני Tzelefos Bridge.",
+                "שכשוך רגליים בפלג מים רדוד ומוצל בעצי דולב ענקיים.",
+                "פיקניק קל בחיק הטבע.",
+                "בדרך חזרה: עצירת תצפית פנורמית על אגם סכר אספרוקרמוס (Asprokremmos Reservoir)."
               ],
               "strollerFriendly": false,
-              "toddlerTip": "להביא סנדלי מים/נעליים סגורות למים ובגדי החלפה. השבילים סביב הגשר נוחים למנשא.",
-              "mapUrl": "https://www.google.com/maps/dir/?api=1&origin=Brown+Paphos+Hills&waypoints=Tzelefos+Bridge&destination=Asprokremmos+Dam&travelmode=driving"
+              "toddlerTip": "מומלץ להביא מנשא גב/בטן עבור בת השנתיים וסנדלי מים סגורים להליכה בפלג המים.",
+              "route": {
+                  "origin": "Brown Paphos Hills Resort",
+                  "waypoints": "Tzelefos Bridge",
+                  "destination": "Asprokremmos Dam"
+              }
             },
             {
-              "dayNumber": 8, "date": "2026-09-30", "dayOfWeek": "רביעי",
-              "title": "בריכות ומפלי אדוניס / שמורת חוף לארה",
-              "travelTime": "כ-45 דקות",
-              "activities": [
-                "טיול מוצל במפלי אדוניס (Adonis Baths) עם בריכות טבעיות וצמחייה עבותה.",
-                "לחילופין: נסיעה איטית לשמורת חוף לארה (Lara Beach) – תצפית על אזורי הטלת צבי הים וטבע בתולי לחלוטין."
-              ],
-              "strollerFriendly": false,
-              "toddlerTip": "מומלץ מנשא גב/בטן לבת השנתיים; בן ה-4 ייהנה מההליכה והגילוי בטבע.",
-              "mapUrl": "https://www.google.com/maps/dir/?api=1&origin=Brown+Paphos+Hills&destination=Adonis+Baths+Waterfalls&travelmode=driving"
-            },
-            {
-              "dayNumber": 9, "date": "2026-10-01", "dayOfWeek": "חמישי",
-              "title": "הרי הטרודוס הנמוכים: כפר האבן הציורי אומודוס",
+              "dayNumber": 6,
+              "date": "2026-09-29",
+              "dayOfWeek": "שלישי",
+              "type": "trip_day",
+              "title": "הרי הטרודוס הנמוכים: כפר האבן אומודוס",
               "travelTime": "כ-50 דקות",
+              "imageUrl": "https://images.unsplash.com/photo-1533615438848-185d263fa707?auto=format&fit=crop&w=1200&q=80",
               "activities": [
-                "עלייה מתונה להרים לאוויר הרים צלול וקריר בכפר המסורתי אומודוס (Omodos).",
-                "שיטוט בסמטאות המרוצפות אבן, ביקור במנזר ההיסטורי ובכיכר המרכזית הרחבה.",
-                "טעימת מאפי שמרים חמים (ארקאטנה) ובתי קפה מסורתיים תחת עצי הדולב."
+                "נסיעה מתונה להרים לאוויר קריר ונעים בכפר המסורתי אומודוס (Omodos).",
+                "שיטוט בסמטאות אבן ציוריות וכיכר מרכזית מרוצפת ורחבה.",
+                "טעימת מאפי שמרים חמים מקומיים וישיבה בבתי קפה בצל עצי דולב עתיקים."
               ],
               "strollerFriendly": true,
-              "toddlerTip": "הכיכר המרכזית חסומה לרכבים – הילדים יכולים לרוץ חופשי. שווה לקחת עליונית קלה כי קריר יותר בהרים.",
-              "mapUrl": "https://www.google.com/maps/dir/?api=1&origin=Brown+Paphos+Hills&destination=Omodos+Cyprus&travelmode=driving"
+              "toddlerTip": "הכיכר המרכזית סגורה לחלוטין לרכבים, כך שהילדים יכולים לרוץ חופשי. כדאי להצטייד בעליונית קלה להרים.",
+              "route": {
+                  "origin": "Brown Paphos Hills Resort",
+                  "destination": "Omodos Cyprus"
+              }
             },
             {
-              "dayNumber": 10, "date": "2026-10-02", "dayOfWeek": "שישי",
-              "title": "הושענא רבה וערב שמחת תורה",
-              "description": "הכנות לחג השני, שחייה בבריכת הריזורט, תפילות חג בסוכה והקפות שמחת תורה מרגשות.",
-              "toddlerTip": "אווירת חג משפחתית ושמחה בריזורט."
+              "dayNumber": 7,
+              "date": "2026-09-30",
+              "dayOfWeek": "רביעי",
+              "type": "trip_day",
+              "title": "מערות הים של פייה, האונייה הטרופה ופינוק בריזורט",
+              "travelTime": "כ-30 דקות",
+              "imageUrl": "https://images.unsplash.com/photo-1599388377750-8b1e4c7b80a5?auto=format&fit=crop&w=1200&q=80",
+              "activities": [
+                "טיול לאורך הטיילת העליונה של מערות הים (Sea Caves) ותצפית על האונייה הטרופה Edro III.",
+                "חזרה למלון לצהריים, שחייה בבריכת הילדים ופעילות במועדון הילדים של הריזורט."
+              ],
+              "strollerFriendly": true,
+              "toddlerTip": "הטיילת העליונה מישורית ומתאימה לעגלה (אין לרדת עם פעוטות לסלעים התלולים).",
+              "route": {
+                  "origin": "Brown Paphos Hills Resort",
+                  "waypoints": "Sea Caves Peyia",
+                  "destination": "Edro III Shipwreck"
+              }
             },
             {
-              "dayNumber": 11, "date": "2026-10-03", "dayOfWeek": "שבת",
-              "title": "שמחת תורה ושבת חול המועד",
-              "description": "סעודות חג חגיגיות, ריקודים, שבת מנוחה מלאה יחד עם המשפחה במלון.",
-              "toddlerTip": "מתקני הילדים והבריכות המחוממות עומדים לרשות המשפחה."
-            },
-            {
-              "dayNumber": 12, "date": "2026-10-04", "dayOfWeek": "ראשון",
+              "dayNumber": 8,
+              "date": "2026-10-01",
+              "dayOfWeek": "חמישי",
+              "type": "trip_and_departure",
               "title": "סלע אפרודיטה, טיילת נמל פאפוס וטיסה הביתה",
-              "travelTime": "כ-15-20 דקות",
+              "travelTime": "15-20 דקות",
+              "imageUrl": "https://images.unsplash.com/photo-1623861294872-4b2a3fa99b4a?auto=format&fit=crop&w=1200&q=80",
               "activities": [
-                "צ'ק אאוט רגוע ואחסון מזוודות ברכב.",
-                "נסיעה של 15 דק' לסלע אפרודיטה (Petra tou Romiou) – תצפית נוף מרהיבה על הים הטורקיז וחוף חלוקי אבן.",
-                "צהריים בטיילת נמל פאפוס ליד המצודה העתיקה (Paphos Harbour Castle) – הליכה מישורית ונעימה עם עגלה.",
-                "17:00: הגעה קלילה לנמל התעופה בפאפוס, החזרת הרכב ובידוק.",
-                "19:10: המראה לתל אביב (נחיתה ב-20:10)."
+                "צ'ק אאוט רגוע והעמסת מזוודות לרכב.",
+                "ביקור בתצפית סלע אפרודיטה (Petra tou Romiou) – מפרץ טורקיז מרהיב לצילום וטבילת רגליים.",
+                "טיול צהריים לאורך טיילת נמל פאפוס והטירה העתיקה.",
+                "הגעה קלילה לנמל התעופה פאפוס, החזרת הרכב בשדה וטיסת אחה\"צ/ערב ישירה לנתב\"ג."
               ],
               "strollerFriendly": true,
-              "toddlerTip": "יום קליל וקרוב מאוד לשדה, בלי שום לחץ של פקקים או נסיעות ארוכות.",
-              "mapUrl": "https://www.google.com/maps/dir/?api=1&origin=Brown+Paphos+Hills&waypoints=Petra+tou+Romiou%7CPaphos+Harbour+Castle&destination=Paphos+International+Airport&travelmode=driving"
+              "toddlerTip": "הכול ברדיוס של 15 דקות מהשדה – אפס לחץ ופקקים לפני הטיסה.",
+              "route": {
+                  "origin": "Brown Paphos Hills Resort",
+                  "waypoints": "Petra tou Romiou|Paphos Harbour Castle",
+                  "destination": "Paphos International Airport"
+              }
             }
           ],
           "packingAndGearChecklist": [
-            "מנשא בד/גב איכותי לבת השנתיים (קריטי למסלולי הטבע והשבילים)",
-            "טיולון/עגלה קלה ומתקפלת לטיילות, לנמל ולחוף קורל ביי",
-            "סנדלי מים סגורים לשני הילדים (לשכשוך בגשר צלפוס ובחופים)",
-            "בגדי ים עם שרוול ארוך UV, כובעי שמש ומסנני קרינה",
-            "דלי, כפות ומשחקי חול מתנפחים לחוף",
-            "עליוניות/קרדיגנים קלים לשעות הערב ולהרי הטרודוס"
+            "מנשא בד/גב איכותי לבת השנתיים (הכרחי לגשר צלפוס ולשבילי הטבע)",
+            "עגלה קלה/טיולון מתקפל לטיילות בנמל, לקורל ביי ולסמטאות הכפר",
+            "סנדלי מים סגורים לשני הילדים לשכשוך בטוח",
+            "בגדי ים UV עם שרוול ארוך, כובעים וקרם הגנה",
+            "דלי, כפות ומשחקי חול מתנפחים",
+            "עליוניות/קרדיגנים דקים לשעות הערב ולהרי הטרודוס"
           ]
         };
 
@@ -471,27 +564,22 @@
                 const weather = ref(null);
                 const isDark = ref(false);
 
-                // Date Formatter
                 const formatDate = (dateStr) => {
                     const parts = dateStr.split('-');
                     const date = new Date(parts[0], parts[1] - 1, parts[2]);
                     return date.toLocaleDateString('he-IL', { day: 'numeric', month: 'long' });
                 };
 
-                // Open-Meteo WMO Weather codes mapped to Emojis
                 const getWeatherEmoji = (code) => {
                     const codes = {
                         0: '☀️', 1: '🌤️', 2: '⛅', 3: '☁️',
-                        45: '🌫️', 48: '🌫️',
-                        51: '🌧️', 53: '🌧️', 55: '🌧️',
-                        61: '🌧️', 63: '🌧️', 65: '🌧️',
-                        71: '❄️', 73: '❄️', 75: '❄️',
+                        45: '🌫️', 48: '🌫️', 51: '🌧️', 53: '🌧️', 55: '🌧️',
+                        61: '🌧️', 63: '🌧️', 65: '🌧️', 71: '❄️', 73: '❄️', 75: '❄️',
                         95: '⛈️'
                     };
                     return codes[code] || '🌡️';
                 };
 
-                // Dark mode toggle logic
                 const toggleDarkMode = () => {
                     isDark.value = !isDark.value;
                     if (isDark.value) {
@@ -503,21 +591,39 @@
                     }
                 };
 
+                const getEmbedUrl = (day) => {
+                    if (!day.route || !googleMapsApiKey) return '';
+                    let url = `https://www.google.com/maps/embed/v1/directions?key=${googleMapsApiKey}`;
+                    url += `&origin=${encodeURIComponent(day.route.origin)}`;
+                    url += `&destination=${encodeURIComponent(day.route.destination)}`;
+                    if (day.route.waypoints) {
+                        url += `&waypoints=${encodeURIComponent(day.route.waypoints)}`;
+                    }
+                    return url;
+                };
+
+                const getMapLinkUrl = (day) => {
+                    if (!day.route) return '';
+                    let url = `https://www.google.com/maps/dir/?api=1`;
+                    url += `&origin=${encodeURIComponent(day.route.origin)}`;
+                    url += `&destination=${encodeURIComponent(day.route.destination)}`;
+                    if (day.route.waypoints) {
+                        url += `&waypoints=${encodeURIComponent(day.route.waypoints)}`;
+                    }
+                    url += `&travelmode=driving`;
+                    return url;
+                };
+
                 onMounted(() => {
-                    // Check local storage for dark mode preference on load
                     if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
                         isDark.value = true;
                         document.documentElement.classList.add('dark');
                     }
 
-                    // Fetch 14-day live weather for Paphos, Cyprus
-                    // Note: Until the trip dates are within a 14-day window, this displays the *current* 14-day forecast for the region.
                     fetch('https://api.open-meteo.com/v1/forecast?latitude=34.7720&longitude=32.4297&daily=temperature_2m_max,temperature_2m_min,weather_code&timezone=auto&forecast_days=14')
                         .then(res => res.json())
                         .then(data => {
-                            if(data && data.daily) {
-                                weather.value = data.daily;
-                            }
+                            if(data && data.daily) { weather.value = data.daily; }
                         })
                         .catch(err => console.error("Error fetching weather:", err));
                 });
@@ -528,7 +634,10 @@
                     weather,
                     getWeatherEmoji,
                     isDark,
-                    toggleDarkMode
+                    toggleDarkMode,
+                    googleMapsApiKey,
+                    getEmbedUrl,
+                    getMapLinkUrl
                 }
             }
         }).mount('#app')
