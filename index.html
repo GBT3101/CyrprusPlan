@@ -540,6 +540,220 @@
       </article>
     </section>
 
+    <!-- Packing Checklist Section -->
+    <section id="packing-checklist" class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm space-y-6">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-100 pb-5">
+        <div>
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 text-xs font-semibold mb-2">
+            <i class="fa-solid fa-clipboard-check"></i> צ'ק-ליסט אינטראקטיבי
+          </div>
+          <h2 class="text-2xl font-bold text-slate-900">רשימת ציוד לאריזה לקפריסין</h2>
+          <p class="text-sm text-slate-500">מותאם למשפחה עם פעוטות (בני שנתיים ו-4), חופי לאצ'י ושמירת חג ושבת</p>
+        </div>
+        <div class="flex items-center gap-3 no-print">
+          <button onclick="resetPackingChecklist()" class="px-3 py-1.5 text-xs font-medium text-slate-500 hover:text-red-600 bg-slate-100 hover:bg-red-50 rounded-lg transition">
+            <i class="fa-solid fa-rotate-left mr-1"></i> אפס סימונים
+          </button>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+        <!-- קטגוריה 1: פעוטות וילדים -->
+        <div class="bg-slate-50 rounded-2xl p-5 border border-slate-200/80">
+          <div class="flex items-center gap-2 font-bold text-slate-900 pb-3 border-b border-slate-200 mb-3">
+            <span class="p-2 bg-amber-100 text-amber-700 rounded-lg text-sm"><i class="fa-solid fa-child"></i></span>
+            ציוד לפעוטות (גילאי 2 ו-4)
+          </div>
+          <ul class="space-y-2.5 text-sm text-slate-700">
+            <li class="flex items-start gap-2.5">
+              <input type="checkbox" id="pack-stroller" class="pack-item mt-1 rounded border-slate-300 text-sky-600 focus:ring-sky-500 w-4 h-4 cursor-pointer">
+              <label for="pack-stroller" class="cursor-pointer">עגלת טיולון קלה ומתקפלת למטוס</label>
+            </li>
+            <li class="flex items-start gap-2.5">
+              <input type="checkbox" id="pack-carrier" class="pack-item mt-1 rounded border-slate-300 text-sky-600 focus:ring-sky-500 w-4 h-4 cursor-pointer">
+              <label for="pack-carrier" class="cursor-pointer">מנשא גב / בד (מומלץ למפלי קריטו טרה)</label>
+            </li>
+            <li class="flex items-start gap-2.5">
+              <input type="checkbox" id="pack-car-seats" class="pack-item mt-1 rounded border-slate-300 text-sky-600 focus:ring-sky-500 w-4 h-4 cursor-pointer">
+              <label for="pack-car-seats" class="cursor-pointer">כיסא בטיחות / בוסטר (או בדיקת הזמנה מ-Avis)</label>
+            </li>
+            <li class="flex items-start gap-2.5">
+              <input type="checkbox" id="pack-bottles" class="pack-item mt-1 rounded border-slate-300 text-sky-600 focus:ring-sky-500 w-4 h-4 cursor-pointer">
+              <label for="pack-bottles" class="cursor-pointer">בקבוקי מים מותאמים לילדים + נשנושים לטיסות ולרכב</label>
+            </li>
+            <li class="flex items-start gap-2.5">
+              <input type="checkbox" id="pack-diapers" class="pack-item mt-1 rounded border-slate-300 text-sky-600 focus:ring-sky-500 w-4 h-4 cursor-pointer">
+              <label for="pack-diapers" class="cursor-pointer">חיתולים, חיתולי ים ומגבונים לימים הראשונים</label>
+            </li>
+            <li class="flex items-start gap-2.5">
+              <input type="checkbox" id="pack-kids-fav" class="pack-item mt-1 rounded border-slate-300 text-sky-600 focus:ring-sky-500 w-4 h-4 cursor-pointer">
+              <label for="pack-kids-fav" class="cursor-pointer">צעצוע / בובה / שמיכה אהובה להרדמה קלה במלון</label>
+            </li>
+          </ul>
+        </div>
+
+        <!-- קטגוריה 2: ים, שמש וטבע -->
+        <div class="bg-slate-50 rounded-2xl p-5 border border-slate-200/80">
+          <div class="flex items-center gap-2 font-bold text-slate-900 pb-3 border-b border-slate-200 mb-3">
+            <span class="p-2 bg-sky-100 text-sky-700 rounded-lg text-sm"><i class="fa-solid fa-water"></i></span>
+            ים, בריכה ומסלולים
+          </div>
+          <ul class="space-y-2.5 text-sm text-slate-700">
+            <li class="flex items-start gap-2.5">
+              <input type="checkbox" id="pack-aqua-shoes" class="pack-item mt-1 rounded border-slate-300 text-sky-600 focus:ring-sky-500 w-4 h-4 cursor-pointer">
+              <label for="pack-aqua-shoes" class="cursor-pointer"><strong>נעלי ים / סנדלי מים</strong> (חוף לאצ'י משולב חלוקי נחל)</label>
+            </li>
+            <li class="flex items-start gap-2.5">
+              <input type="checkbox" id="pack-floaties" class="pack-item mt-1 rounded border-slate-300 text-sky-600 focus:ring-sky-500 w-4 h-4 cursor-pointer">
+              <label for="pack-floaties" class="cursor-pointer">מצופי ידיים / אפודת ציפה לשייט בלגונה ולחוף</label>
+            </li>
+            <li class="flex items-start gap-2.5">
+              <input type="checkbox" id="pack-sunscreen" class="pack-item mt-1 rounded border-slate-300 text-sky-600 focus:ring-sky-500 w-4 h-4 cursor-pointer">
+              <label for="pack-sunscreen" class="cursor-pointer">קרם הגנה (SPF גבוה לילדים) + כובעי שמש</label>
+            </li>
+            <li class="flex items-start gap-2.5">
+              <input type="checkbox" id="pack-swimwear" class="pack-item mt-1 rounded border-slate-300 text-sky-600 focus:ring-sky-500 w-4 h-4 cursor-pointer">
+              <label for="pack-swimwear" class="cursor-pointer">בגדי ים עם שרוול ארוך להגנה משמש</label>
+            </li>
+            <li class="flex items-start gap-2.5">
+              <input type="checkbox" id="pack-sand-toys" class="pack-item mt-1 rounded border-slate-300 text-sky-600 focus:ring-sky-500 w-4 h-4 cursor-pointer">
+              <label for="pack-sand-toys" class="cursor-pointer">דלי, כף ומשחקי חול קומפקטיים</label>
+            </li>
+            <li class="flex items-start gap-2.5">
+              <input type="checkbox" id="pack-daypack" class="pack-item mt-1 rounded border-slate-300 text-sky-600 focus:ring-sky-500 w-4 h-4 cursor-pointer">
+              <label for="pack-daypack" class="cursor-pointer">תיק גב יומי עמיד למים ונוח להליכות קצרות</label>
+            </li>
+          </ul>
+        </div>
+
+        <!-- קטגוריה 3: מסורת, חג סוכות ושבת -->
+        <div class="bg-slate-50 rounded-2xl p-5 border border-slate-200/80">
+          <div class="flex items-center gap-2 font-bold text-slate-900 pb-3 border-b border-slate-200 mb-3">
+            <span class="p-2 bg-emerald-100 text-emerald-700 rounded-lg text-sm"><i class="fa-solid fa-candle-holder"></i></span>
+            שבת וחג סוכות
+          </div>
+          <ul class="space-y-2.5 text-sm text-slate-700">
+            <li class="flex items-start gap-2.5">
+              <input type="checkbox" id="pack-candles" class="pack-item mt-1 rounded border-slate-300 text-sky-600 focus:ring-sky-500 w-4 h-4 cursor-pointer">
+              <label for="pack-candles" class="cursor-pointer">נרות שבת / נרונים + גפרורים/מצית להדלקה</label>
+            </li>
+            <li class="flex items-start gap-2.5">
+              <input type="checkbox" id="pack-kiddush-cup" class="pack-item mt-1 rounded border-slate-300 text-sky-600 focus:ring-sky-500 w-4 h-4 cursor-pointer">
+              <label for="pack-kiddush-cup" class="cursor-pointer">גביע קידוש קטן ונוח לנסיעה</label>
+            </li>
+            <li class="flex items-start gap-2.5">
+              <input type="checkbox" id="pack-wine" class="pack-item mt-1 rounded border-slate-300 text-sky-600 focus:ring-sky-500 w-4 h-4 cursor-pointer">
+              <label for="pack-wine" class="cursor-pointer">בקבוק יין / מיץ ענבים אטום במזוודה (או רכישה בפאפוס)</label>
+            </li>
+            <li class="flex items-start gap-2.5">
+              <input type="checkbox" id="pack-siddur" class="pack-item mt-1 rounded border-slate-300 text-sky-600 focus:ring-sky-500 w-4 h-4 cursor-pointer">
+              <label for="pack-siddur" class="cursor-pointer">סידור / מחזור לסוכות + ברכונים</label>
+            </li>
+            <li class="flex items-start gap-2.5">
+              <input type="checkbox" id="pack-festive-clothes" class="pack-item mt-1 rounded border-slate-300 text-sky-600 focus:ring-sky-500 w-4 h-4 cursor-pointer">
+              <label for="pack-festive-clothes" class="cursor-pointer">בגדי חג ושבת לכל המשפחה</label>
+            </li>
+            <li class="flex items-start gap-2.5">
+              <input type="checkbox" id="pack-shabbat-food" class="pack-item mt-1 rounded border-slate-300 text-sky-600 focus:ring-sky-500 w-4 h-4 cursor-pointer">
+              <label for="pack-shabbat-food" class="cursor-pointer">מוצרי מזון כשרים יבשים / חטיפים שקשה להשיג מקומית</label>
+            </li>
+          </ul>
+        </div>
+
+        <!-- קטגוריה 4: תרופות ועזרה ראשונה -->
+        <div class="bg-slate-50 rounded-2xl p-5 border border-slate-200/80">
+          <div class="flex items-center gap-2 font-bold text-slate-900 pb-3 border-b border-slate-200 mb-3">
+            <span class="p-2 bg-red-100 text-red-700 rounded-lg text-sm"><i class="fa-solid fa-kit-medical"></i></span>
+            בריאות ועזרה ראשונה
+          </div>
+          <ul class="space-y-2.5 text-sm text-slate-700">
+            <li class="flex items-start gap-2.5">
+              <input type="checkbox" id="pack-fever-meds" class="pack-item mt-1 rounded border-slate-300 text-sky-600 focus:ring-sky-500 w-4 h-4 cursor-pointer">
+              <label for="pack-fever-meds" class="cursor-pointer">משככי כאבים ומורידי חום לילדים (אקמולי / נורופן + מזרק)</label>
+            </li>
+            <li class="flex items-start gap-2.5">
+              <input type="checkbox" id="pack-thermometer" class="pack-item mt-1 rounded border-slate-300 text-sky-600 focus:ring-sky-500 w-4 h-4 cursor-pointer">
+              <label for="pack-thermometer" class="cursor-pointer">מדחום דיגיטלי</label>
+            </li>
+            <li class="flex items-start gap-2.5">
+              <input type="checkbox" id="pack-bandages" class="pack-item mt-1 rounded border-slate-300 text-sky-600 focus:ring-sky-500 w-4 h-4 cursor-pointer">
+              <label for="pack-bandages" class="cursor-pointer">פלסטרים, חומר חיטוי (סביעור/פולידין) ומשחה להרגעת עקיצות</label>
+            </li>
+            <li class="flex items-start gap-2.5">
+              <input type="checkbox" id="pack-mosquito" class="pack-item mt-1 rounded border-slate-300 text-sky-600 focus:ring-sky-500 w-4 h-4 cursor-pointer">
+              <label for="pack-mosquito" class="cursor-pointer">דוחה יתושים מתאים לפעוטות (לאזור המים והכפר בערב)</label>
+            </li>
+            <li class="flex items-start gap-2.5">
+              <input type="checkbox" id="pack-regular-meds" class="pack-item mt-1 rounded border-slate-300 text-sky-600 focus:ring-sky-500 w-4 h-4 cursor-pointer">
+              <label for="pack-regular-meds" class="cursor-pointer">תרופות קבועות לטיול + תוספת לימי ספייר</label>
+            </li>
+          </ul>
+        </div>
+
+        <!-- קטגוריה 5: מסמכים, רכב ופיננסים -->
+        <div class="bg-slate-50 rounded-2xl p-5 border border-slate-200/80">
+          <div class="flex items-center gap-2 font-bold text-slate-900 pb-3 border-b border-slate-200 mb-3">
+            <span class="p-2 bg-indigo-100 text-indigo-700 rounded-lg text-sm"><i class="fa-solid fa-id-card"></i></span>
+            מסמכים, רכב וטיסות
+          </div>
+          <ul class="space-y-2.5 text-sm text-slate-700">
+            <li class="flex items-start gap-2.5">
+              <input type="checkbox" id="pack-passports" class="pack-item mt-1 rounded border-slate-300 text-sky-600 focus:ring-sky-500 w-4 h-4 cursor-pointer">
+              <label for="pack-passports" class="cursor-pointer">דרכונים בתוקף (לפחות 3-6 חודשים קדימה) לכולם</label>
+            </li>
+            <li class="flex items-start gap-2.5">
+              <input type="checkbox" id="pack-license" class="pack-item mt-1 rounded border-slate-300 text-sky-600 focus:ring-sky-500 w-4 h-4 cursor-pointer">
+              <label for="pack-license" class="cursor-pointer">רישיון נהיגה ישראלי + בינלאומי לנהג הראשי</label>
+            </li>
+            <li class="flex items-start gap-2.5">
+              <input type="checkbox" id="pack-credit-card" class="pack-item mt-1 rounded border-slate-300 text-sky-600 focus:ring-sky-500 w-4 h-4 cursor-pointer">
+              <label for="pack-credit-card" class="cursor-pointer">כרטיס אשראי פיזי בינלאומי על שם הנהג לפיקדון ב-Avis</label>
+            </li>
+            <li class="flex items-start gap-2.5">
+              <input type="checkbox" id="pack-insurance" class="pack-item mt-1 rounded border-slate-300 text-sky-600 focus:ring-sky-500 w-4 h-4 cursor-pointer">
+              <label for="pack-insurance" class="cursor-pointer">ביטוח נסיעות רפואי מורחב למשפחה</label>
+            </li>
+            <li class="flex items-start gap-2.5">
+              <input type="checkbox" id="pack-voucher" class="pack-item mt-1 rounded border-slate-300 text-sky-600 focus:ring-sky-500 w-4 h-4 cursor-pointer">
+              <label for="pack-voucher" class="cursor-pointer">אישור הזמנת הטיסות (הזמנה 4811725) ושובר המלון</label>
+            </li>
+          </ul>
+        </div>
+
+        <!-- קטגוריה 6: חשמל ונוחות ברכב -->
+        <div class="bg-slate-50 rounded-2xl p-5 border border-slate-200/80">
+          <div class="flex items-center gap-2 font-bold text-slate-900 pb-3 border-b border-slate-200 mb-3">
+            <span class="p-2 bg-purple-100 text-purple-700 rounded-lg text-sm"><i class="fa-solid fa-plug"></i></span>
+            חשמל, גאדג'טים ורכב
+          </div>
+          <ul class="space-y-2.5 text-sm text-slate-700">
+            <li class="flex items-start gap-2.5">
+              <input type="checkbox" id="pack-uk-adapter" class="pack-item mt-1 rounded border-slate-300 text-sky-600 focus:ring-sky-500 w-4 h-4 cursor-pointer">
+              <label for="pack-uk-adapter" class="cursor-pointer"><strong>מתאם לשקע בריטי (Type G)</strong> - חובה בקפריסין!</label>
+            </li>
+            <li class="flex items-start gap-2.5">
+              <input type="checkbox" id="pack-phone-mount" class="pack-item mt-1 rounded border-slate-300 text-sky-600 focus:ring-sky-500 w-4 h-4 cursor-pointer">
+              <label for="pack-phone-mount" class="cursor-pointer">מעמד טלפון פשוט לרכב לטובת ניווט נוח</label>
+            </li>
+            <li class="flex items-start gap-2.5">
+              <input type="checkbox" id="pack-car-charger" class="pack-item mt-1 rounded border-slate-300 text-sky-600 focus:ring-sky-500 w-4 h-4 cursor-pointer">
+              <label for="pack-car-charger" class="cursor-pointer">מטען רכב + כבלים ארוכים לסמארטפונים</label>
+            </li>
+            <li class="flex items-start gap-2.5">
+              <input type="checkbox" id="pack-powerbank" class="pack-item mt-1 rounded border-slate-300 text-sky-600 focus:ring-sky-500 w-4 h-4 cursor-pointer">
+              <label for="pack-powerbank" class="cursor-pointer">סוללת גיבוי ניידת (Powerbank) לתיק היד</label>
+            </li>
+            <li class="flex items-start gap-2.5">
+              <input type="checkbox" id="pack-offline-maps" class="pack-item mt-1 rounded border-slate-300 text-sky-600 focus:ring-sky-500 w-4 h-4 cursor-pointer">
+              <label for="pack-offline-maps" class="cursor-pointer">הורדת מפת קפריסין ל-Google Maps מראש לשימוש Offline</label>
+            </li>
+          </ul>
+        </div>
+
+      </div>
+    </section>
+
     <!-- Budget Section -->
     <section id="budget" class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm">
       <div class="flex items-center justify-between mb-6">
@@ -630,6 +844,28 @@
             behavior: 'smooth'
           });
         }
+      }
+    }
+
+    // שמירת מצב הצ'ק-ליסט ב-localStorage
+    document.addEventListener('DOMContentLoaded', () => {
+      const checkboxes = document.querySelectorAll('.pack-item');
+      checkboxes.forEach(cb => {
+        const saved = localStorage.getItem('pack_' + cb.id);
+        if (saved === 'true') cb.checked = true;
+        cb.addEventListener('change', () => {
+          localStorage.setItem('pack_' + cb.id, cb.checked);
+        });
+      });
+    });
+
+    function resetPackingChecklist() {
+      if (confirm('לאפס את כל הסימונים ברשימת הציוד?')) {
+        const checkboxes = document.querySelectorAll('.pack-item');
+        checkboxes.forEach(cb => {
+          cb.checked = false;
+          localStorage.removeItem('pack_' + cb.id);
+        });
       }
     }
   </script>
