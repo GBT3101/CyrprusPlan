@@ -23,20 +23,6 @@
         extend: {
           fontFamily: {
             sans: ['Rubik', 'sans-serif'],
-          },
-          colors: {
-            primary: {
-              50: '#f0f9ff',
-              100: '#e0f2fe',
-              500: '#0ea5e9',
-              600: '#0284c7',
-              700: '#0369a1',
-              900: '#0c4a6e',
-            },
-            accent: {
-              500: '#f59e0b',
-              600: '#d97706',
-            }
           }
         }
       }
@@ -51,21 +37,19 @@
       .no-print {
         display: none !important;
       }
-      .page-break {
-        page-break-before: always;
-      }
     }
   </style>
 </head>
 <body class="bg-slate-50 text-slate-800 antialiased min-h-screen flex flex-col">
 
-  <!-- Header / Hero Section with Greek Village Hotel Theme Image -->
+  <!-- Header / Hero Section -->
   <header class="relative bg-slate-900 text-white overflow-hidden shadow-xl">
     <div class="absolute inset-0 z-0">
       <img 
-        src="https://upload.wikimedia.org/wikipedia/commons/4/4b/Greek_Village_Polis_Paphos_District_Cyprus.jpg" 
-        alt="Greek Village Latchi" 
-        class="w-full h-full object-cover opacity-35 filter brightness-75 scale-105 transform hover:scale-100 transition duration-1000"
+        src="https://upload.wikimedia.org/wikipedia/commons/e/ea/Polis_Town_Hall_Polis_Paphos_District_Cyprus.jpg" 
+        referrerpolicy="no-referrer"
+        alt="Polis & Latchi Cyprus" 
+        class="w-full h-full object-cover opacity-40 filter brightness-75 scale-105 transform hover:scale-100 transition duration-1000"
       />
       <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-900/60 to-transparent"></div>
     </div>
@@ -82,7 +66,7 @@
           </h1>
           <p class="text-slate-300 text-lg flex items-center gap-2">
             <i class="fa-solid fa-calendar-days text-sky-400"></i>
-            23.09.2026 – 29.09.2026 (6 לילות) • הרכב משפחתי: 2 הורים ו-2 פעוטות (בני 4 ו-2)
+            23.09.2026 – 29.09.2026 (6 לילות) • הרכב: 2 הורים ו-2 פעוטות (בני 4 ו-2)
           </p>
         </div>
 
@@ -112,13 +96,13 @@
         </div>
         <div class="bg-white/10 backdrop-blur-md rounded-xl p-3 sm:p-4 border border-white/10">
           <div class="text-slate-400 text-xs flex items-center gap-1.5 mb-1">
-            <i class="fa-solid fa-shield-halved text-sky-400"></i> מסורת
+            <i class="fa-solid fa-shield-halved text-sky-400"></i> שמירת מסורת
           </div>
           <div class="font-bold text-sm sm:text-base text-white">ערב סוכות ושבת קודש</div>
         </div>
         <div class="bg-white/10 backdrop-blur-md rounded-xl p-3 sm:p-4 border border-white/10">
           <div class="text-slate-400 text-xs flex items-center gap-1.5 mb-1">
-            <i class="fa-solid fa-shekel-sign text-sky-400"></i> סה״כ תקציב
+            <i class="fa-solid fa-shekel-sign text-sky-400"></i> סה״כ תקציב סגור
           </div>
           <div class="font-bold text-sm sm:text-base text-white">~17,507 ₪</div>
         </div>
@@ -126,9 +110,9 @@
     </div>
   </header>
 
-  <!-- Sticky Day Filter Navigation -->
+  <!-- Sticky Navigation Tabs -->
   <nav class="sticky top-0 z-30 bg-white/95 backdrop-blur-md shadow-sm border-b border-slate-200 no-print">
-    <div class="max-w-6xl mx-auto px-4 py-2.5 overflow-x-auto flex gap-2 scrollbar-none">
+    <div class="max-w-6xl mx-auto px-4 py-2.5 overflow-x-auto flex gap-2">
       <button onclick="scrollToDay('all')" class="day-tab px-3.5 py-1.5 rounded-lg text-sm font-semibold bg-sky-600 text-white whitespace-nowrap transition">
         כל הימים
       </button>
@@ -158,10 +142,9 @@
 
   <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-1 space-y-12">
 
-    <!-- Essential Logistics Cards: Flights, Hotel, Car -->
+    <!-- Logistics Summary Cards -->
     <section class="grid grid-cols-1 md:grid-cols-3 gap-6">
-      <!-- Flight Card -->
-      <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-200 hover:shadow-md transition">
+      <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-200">
         <div class="flex items-center justify-between pb-3 border-b border-slate-100 mb-4">
           <div class="flex items-center gap-2 font-bold text-slate-900">
             <span class="p-2 bg-sky-100 text-sky-600 rounded-lg"><i class="fa-solid fa-plane"></i></span>
@@ -172,25 +155,24 @@
         <div class="space-y-3 text-sm">
           <div class="p-2.5 bg-slate-50 rounded-xl">
             <div class="font-semibold text-slate-900 flex justify-between">
-              <span>הלוך: ישראייר 6H595</span>
+              <span>הלוך: 6H595 (ישראייר)</span>
               <span class="text-sky-600 font-bold">15:40</span>
             </div>
-            <div class="text-slate-500 text-xs mt-1">23.09 | ת״א (TLV) ← פאפוס (PFO)</div>
-            <div class="text-slate-500 text-xs">מס׳ הזמנה: 4811725 • 2,351 ₪</div>
+            <div class="text-slate-500 text-xs mt-1">23.09 | ת״א ← פאפוס • מס׳ 4811725</div>
+            <div class="text-slate-500 text-xs">עלות: 2,351 ₪</div>
           </div>
           <div class="p-2.5 bg-slate-50 rounded-xl">
             <div class="font-semibold text-slate-900 flex justify-between">
-              <span>חזור: טוס איירווייז U8153</span>
+              <span>חזור: U8153 (טוס)</span>
               <span class="text-sky-600 font-bold">11:05</span>
             </div>
-            <div class="text-slate-500 text-xs mt-1">29.09 | פאפוס (PFO) ← ת״א (TLV)</div>
-            <div class="text-slate-500 text-xs">עלות: 902 €</div>
+            <div class="text-slate-500 text-xs mt-1">29.09 | פאפוס ← ת״א</div>
+            <div class="text-slate-500 text-xs">עלות: 902 € (~3,157 ₪)</div>
           </div>
         </div>
       </div>
 
-      <!-- Hotel Card -->
-      <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-200 hover:shadow-md transition">
+      <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-200">
         <div class="flex items-center justify-between pb-3 border-b border-slate-100 mb-4">
           <div class="flex items-center gap-2 font-bold text-slate-900">
             <span class="p-2 bg-emerald-100 text-emerald-600 rounded-lg"><i class="fa-solid fa-hotel"></i></span>
@@ -201,7 +183,7 @@
         <div class="text-sm space-y-2">
           <p class="text-slate-600"><span class="font-medium text-slate-800">מיקום:</span> Latchi / Polis Chrysochous</p>
           <p class="text-slate-600"><span class="font-medium text-slate-800">עלות:</span> 2,587 € (~9,055 ₪)</p>
-          <p class="text-slate-500 text-xs leading-relaxed">אידיאלי עם פעוטות, קרוב לים, גישה מישורית ומרחבים ירוקים ושקטים.</p>
+          <p class="text-slate-500 text-xs">שקט, מרחבים ירוקים וקרוב מאוד לים.</p>
         </div>
         <div class="mt-4 pt-3 border-t border-slate-100">
           <a href="https://www.google.com/maps/search/?api=1&query=Greek+Village+Latchi+Polis+Cyprus" target="_blank" class="w-full inline-flex justify-center items-center gap-2 px-3 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold rounded-lg transition">
@@ -210,8 +192,7 @@
         </div>
       </div>
 
-      <!-- Car Rental Card -->
-      <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-200 hover:shadow-md transition">
+      <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-200">
         <div class="flex items-center justify-between pb-3 border-b border-slate-100 mb-4">
           <div class="flex items-center gap-2 font-bold text-slate-900">
             <span class="p-2 bg-amber-100 text-amber-600 rounded-lg"><i class="fa-solid fa-car"></i></span>
@@ -222,31 +203,30 @@
         <div class="text-sm space-y-2">
           <p class="text-slate-600"><span class="font-medium text-slate-800">איסוף והחזרה:</span> שדה תעופה פאפוס (PFO)</p>
           <p class="text-slate-600"><span class="font-medium text-slate-800">עלות:</span> 841 € (~2,944 ₪)</p>
-          <p class="text-slate-500 text-xs leading-relaxed">נסיעה של כ-45 דקות מהשדה ללאצ'י. מרווח ונוח לעגלות ומזוודות.</p>
+          <p class="text-slate-500 text-xs">רכב מרווח ונוח לנסיעות קצרות עם פעוטות ועגלות.</p>
         </div>
         <div class="mt-4 pt-3 border-t border-slate-100">
           <a href="https://www.google.com/maps/search/?api=1&query=Paphos+International+Airport+Car+Rental" target="_blank" class="w-full inline-flex justify-center items-center gap-2 px-3 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold rounded-lg transition">
-            <i class="fa-solid fa-location-dot text-red-500"></i> תחנת Avis בשדה התעופה
+            <i class="fa-solid fa-location-dot text-red-500"></i> תחנת Avis בשדה פאפוס
           </a>
         </div>
       </div>
     </section>
 
-    <!-- Daily Itinerary Timeline -->
+    <!-- Daily Itinerary -->
     <section class="space-y-10">
-      <div class="flex items-center justify-between">
-        <div>
-          <h2 class="text-2xl font-bold text-slate-900">תוכנית יומית מפורטת</h2>
-          <p class="text-sm text-slate-500">נסיעות קצרות, מסלולים קלילים ונגישים מותאמים לגילאי שנתיים וארבע</p>
-        </div>
+      <div>
+        <h2 class="text-2xl font-bold text-slate-900">תוכנית יומית</h2>
+        <p class="text-sm text-slate-500">נסיעות של עד 35 דקות, נגישות לעגלות ומותאם לגילאי 2 ו-4</p>
       </div>
 
       <!-- DAY 1 -->
       <article id="day-1" class="day-card bg-white rounded-3xl overflow-hidden border border-slate-200 shadow-sm hover:shadow-md transition">
         <div class="grid grid-cols-1 lg:grid-cols-12">
-          <div class="lg:col-span-4 h-60 lg:h-auto relative overflow-hidden">
+          <div class="lg:col-span-4 h-60 lg:h-auto relative overflow-hidden bg-slate-100">
             <img 
               src="https://upload.wikimedia.org/wikipedia/commons/4/4c/Paphos_International_Airport_in_2020.07.jpg" 
+              referrerpolicy="no-referrer"
               alt="Paphos International Airport" 
               class="w-full h-full object-cover"
             />
@@ -257,32 +237,29 @@
           <div class="lg:col-span-8 p-6 lg:p-8 flex flex-col justify-between">
             <div>
               <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
-                <h3 class="text-xl font-bold text-slate-900">יום 1: נחיתה בפאפוס והגעה רגועה ללאצ'י</h3>
+                <h3 class="text-xl font-bold text-slate-900">יום 1: נחיתה בפאפוס והגעה ללאצ'י</h3>
                 <span class="text-xs font-semibold text-slate-500 bg-slate-100 px-2.5 py-1 rounded-full">
-                  <i class="fa-solid fa-sun text-amber-500 mr-1"></i> שמשי ונעים, כ-27°C
+                  <i class="fa-solid fa-sun text-amber-500 mr-1"></i> כ-27°C
                 </span>
               </div>
               <p class="text-slate-600 text-sm leading-relaxed mb-6">
-                טיסת צהריים נעימה לפאפוס. איסוף מהיר של הקרוסאובר ב-Avis, העמסת ציוד ונסיעה נוחה של כ-45 דקות צפונה ללאצ'י. התמקמות במלון וסיור רגלי ראשון ליד הים.
+                נחיתת אחה״צ, איסוף הרכב מחברת Avis ונסיעה נינוחה של כ-45 דקות צפונה ללאצ'י. התמקמות במלון וסיור רגלי בנמל.
               </p>
-
               <div class="space-y-4 border-r-2 border-sky-100 pr-4">
-                <div class="relative">
-                  <div class="font-bold text-sm text-slate-900">15:40 | טיסה 6H595 מתל אביב</div>
-                  <div class="text-xs text-slate-500">נחיתה משוערת ב-16:50 בפאפוס ואיסוף כבודה.</div>
+                <div>
+                  <div class="font-bold text-sm text-slate-900">15:40 | טיסה 6H595 מתל אביב לפאפוס</div>
+                  <div class="text-xs text-slate-500">נחיתה ב-16:50, איסוף כבודה.</div>
                 </div>
-                <div class="relative">
-                  <div class="font-bold text-sm text-slate-900">17:30 | איסוף הרכב מ-Avis ונסיעה ללאצ'י</div>
-                  <div class="text-xs text-slate-500">נסיעה צפונה על כביש B7 המישורי והנוח.</div>
+                <div>
+                  <div class="font-bold text-sm text-slate-900">17:30 | איסוף הרכב מ-Avis ויציאה לדרך</div>
                   <a href="https://www.google.com/maps/search/?api=1&query=Paphos+International+Airport" target="_blank" class="inline-flex items-center gap-1.5 text-xs text-sky-600 font-semibold mt-1 hover:underline">
-                    <i class="fa-solid fa-arrow-up-right-from-square"></i> מפת שדה התעופה
+                    <i class="fa-solid fa-location-dot"></i> שדה התעופה פאפוס ב-Maps
                   </a>
                 </div>
-                <div class="relative">
-                  <div class="font-bold text-sm text-slate-900">18:45 | צ'ק-אין במלון Greek Village וטיילת לאצ'י</div>
-                  <div class="text-xs text-slate-500">התארגנות קלה בחדר וטיול שקיעה קצר במרינה ובנמל לאצ'י.</div>
+                <div>
+                  <div class="font-bold text-sm text-slate-900">18:45 | צ'ק אין ב-Greek Village וסיור בנמל לאצ'י</div>
                   <a href="https://www.google.com/maps/search/?api=1&query=Latchi+Harbour+Cyprus" target="_blank" class="inline-flex items-center gap-1.5 text-xs text-sky-600 font-semibold mt-1 hover:underline">
-                    <i class="fa-solid fa-arrow-up-right-from-square"></i> ניווט לנמל לאצ'י
+                    <i class="fa-solid fa-location-dot"></i> נמל לאצ'י ב-Maps
                   </a>
                 </div>
               </div>
@@ -294,9 +271,10 @@
       <!-- DAY 2 -->
       <article id="day-2" class="day-card bg-white rounded-3xl overflow-hidden border border-slate-200 shadow-sm hover:shadow-md transition">
         <div class="grid grid-cols-1 lg:grid-cols-12">
-          <div class="lg:col-span-4 h-60 lg:h-auto relative overflow-hidden">
+          <div class="lg:col-span-4 h-60 lg:h-auto relative overflow-hidden bg-slate-100">
             <img 
               src="https://upload.wikimedia.org/wikipedia/commons/5/5c/Baths_of_Aphrodite%2C_State_Forest_of_the_Akamas_Peninsula%2C_Neo_Chorio_01.jpg" 
+              referrerpolicy="no-referrer"
               alt="Baths of Aphrodite" 
               class="w-full h-full object-cover"
             />
@@ -307,30 +285,25 @@
           <div class="lg:col-span-8 p-6 lg:p-8 flex flex-col justify-between">
             <div>
               <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
-                <h3 class="text-xl font-bold text-slate-900">יום 2: מרחצאות אפרודיטה, גנים בוטניים וטיילת החוף</h3>
+                <h3 class="text-xl font-bold text-slate-900">יום 2: מרחצאות אפרודיטה וטיילת החוף</h3>
                 <span class="text-xs font-semibold text-slate-500 bg-slate-100 px-2.5 py-1 rounded-full">
-                  <i class="fa-solid fa-sun text-amber-500 mr-1"></i> בהיר ונעים, כ-28°C
+                  <i class="fa-solid fa-sun text-amber-500 mr-1"></i> כ-28°C
                 </span>
               </div>
               <p class="text-slate-600 text-sm leading-relaxed mb-6">
-                טיול בוקר קצר ומוצל רק 8 דקות מהמלון בשמורת אקאמס. שביל נגיש וקל לעגלות בגנים הבוטניים, תצפית ים מרהיבה ולאחר מכן בילוי רגוע בחוף ובנמל לאצ'י.
+                טיול בוקר מוצל וקליל בגנים הבוטניים ובמרחצאות אפרודיטה (8 דקות מהמלון), ולאחר מכן אחה"צ רגוע בחוף לאצ'י.
               </p>
-
               <div class="space-y-4 border-r-2 border-sky-100 pr-4">
-                <div class="relative">
+                <div>
                   <div class="font-bold text-sm text-slate-900">09:30 | מרחצאות אפרודיטה (Baths of Aphrodite)</div>
-                  <div class="text-xs text-slate-500">הליכה קלה ומוצלת בין עצי תאנה ומעיינות טבעיים. נגיש מאוד עם פעוטות.</div>
+                  <div class="text-xs text-slate-500">שביל מוצל, ירוק ונוח להליכה עם פעוטות ועגלות.</div>
                   <a href="https://www.google.com/maps/search/?api=1&query=Baths+of+Aphrodite+Cyprus" target="_blank" class="inline-flex items-center gap-1.5 text-xs text-sky-600 font-semibold mt-1 hover:underline">
                     <i class="fa-solid fa-location-dot"></i> פתח ב-Google Maps
                   </a>
                 </div>
-                <div class="relative">
-                  <div class="font-bold text-sm text-slate-900">12:30 | פיקניק ומנוחה בנקודת תצפית חצי האי אקאמס</div>
-                  <div class="text-xs text-slate-500">ספסלים מוצלים, אוויר ים צח ומנוחת צהריים לילדים.</div>
-                </div>
-                <div class="relative">
-                  <div class="font-bold text-sm text-slate-900">16:00 | חוף לאצ'י (Latchi Beach) וטיילת המרינה</div>
-                  <div class="text-xs text-slate-500">טבילה במים שקטים וצלולים, הליכה מישורית על שפת המים וגלידה מקומית.</div>
+                <div>
+                  <div class="font-bold text-sm text-slate-900">16:00 | חוף לאצ'י (Latchi Beach) והמרינה</div>
+                  <div class="text-xs text-slate-500">מים שקטים ורדודים וטיילת סגורה לרכבים.</div>
                   <a href="https://www.google.com/maps/search/?api=1&query=Latchi+Beach+Cyprus" target="_blank" class="inline-flex items-center gap-1.5 text-xs text-sky-600 font-semibold mt-1 hover:underline">
                     <i class="fa-solid fa-location-dot"></i> פתח ב-Google Maps
                   </a>
@@ -344,10 +317,11 @@
       <!-- DAY 3 -->
       <article id="day-3" class="day-card bg-white rounded-3xl overflow-hidden border border-slate-200 shadow-sm hover:shadow-md transition">
         <div class="grid grid-cols-1 lg:grid-cols-12">
-          <div class="lg:col-span-4 h-60 lg:h-auto relative overflow-hidden">
+          <div class="lg:col-span-4 h-60 lg:h-auto relative overflow-hidden bg-slate-100">
             <img 
               src="https://upload.wikimedia.org/wikipedia/commons/e/ea/Polis_Town_Hall_Polis_Paphos_District_Cyprus.jpg" 
-              alt="Polis Town Hall Square" 
+              referrerpolicy="no-referrer"
+              alt="Polis Town Square" 
               class="w-full h-full object-cover"
             />
             <div class="absolute top-4 right-4 bg-sky-600 text-white font-bold text-xs px-3 py-1.5 rounded-full shadow">
@@ -357,35 +331,29 @@
           <div class="lg:col-span-8 p-6 lg:p-8 flex flex-col justify-between">
             <div>
               <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
-                <h3 class="text-xl font-bold text-slate-900">יום 3: פוליס הציורית, קניות והתארגנות לשבת וחג</h3>
+                <h3 class="text-xl font-bold text-slate-900">יום 3: הכפר פוליס והתארגנות לשבת וחג</h3>
                 <span class="text-xs font-semibold text-amber-700 bg-amber-50 border border-amber-200 px-2.5 py-1 rounded-full">
                   <i class="fa-solid fa-candle-holder mr-1"></i> ערב סוכות ושבת קודש
                 </span>
               </div>
               <p class="text-slate-600 text-sm leading-relaxed mb-6">
-                סיבוב בוקר קצר ונינוח במדרחוב המרוצף של העיירה הסמוכה פוליס (5 דק' נסיעה), קניות ופירות טריים בסופרמרקט מקומי וחזרה מוקדמת למלון לקראת הדלקת נרות וכניסת החג.
+                סיור בוקר קצר במדרחוב המרוצף של פוליס (5 דק' נסיעה), קניות לשבת בסופרמרקט Papantoniou, וחזרה מוקדמת למלון לקראת החג.
               </p>
-
               <div class="space-y-4 border-r-2 border-sky-100 pr-4">
-                <div class="relative">
-                  <div class="font-bold text-sm text-slate-900">09:30 | סיור בכיכר המרכזית של פוליס (Polis Town Square)</div>
-                  <div class="text-xs text-slate-500">סמטאות אבן ללא תנועת רכבים, גן שעשועים קטן ומרחב פתוח לפעוטות.</div>
+                <div>
+                  <div class="font-bold text-sm text-slate-900">09:30 | כיכר פוליס הציורית (Polis Town Square)</div>
+                  <div class="text-xs text-slate-500">מדרחוב מרוצף ללא רכבים, בתי קפה ומרחב פתוח לפעוטות.</div>
                   <a href="https://www.google.com/maps/search/?api=1&query=Polis+Chrysochous+Town+Square" target="_blank" class="inline-flex items-center gap-1.5 text-xs text-sky-600 font-semibold mt-1 hover:underline">
                     <i class="fa-solid fa-location-dot"></i> פתח ב-Google Maps
                   </a>
                 </div>
-                <div class="relative">
-                  <div class="font-bold text-sm text-slate-900">11:30 | הצטיידות בסופרמרקט Papantoniou בפוליס</div>
-                  <div class="text-xs text-slate-500">רכישת פירות, ירקות, מים ומצרכים טריים לימי השבת והחג.</div>
+                <div>
+                  <div class="font-bold text-sm text-slate-900">11:30 | קניות בסופרמרקט Papantoniou בפוליס</div>
                   <a href="https://www.google.com/maps/search/?api=1&query=Papantoniou+Supermarket+Polis" target="_blank" class="inline-flex items-center gap-1.5 text-xs text-sky-600 font-semibold mt-1 hover:underline">
                     <i class="fa-solid fa-location-dot"></i> פתח ב-Google Maps
                   </a>
                 </div>
-                <div class="relative">
-                  <div class="font-bold text-sm text-slate-900">14:00 | חזרה למלון Greek Village והתארגנות רגועה</div>
-                  <div class="text-xs text-slate-500">הכנת ארוחות החג, שנת צהריים לילדים ומנוחה.</div>
-                </div>
-                <div class="relative">
+                <div>
                   <div class="font-bold text-sm text-amber-700">18:20 | הדלקת נרות חג ושבת קודש</div>
                   <div class="text-xs text-slate-500">סעודת חג משפחתית ושלווה במלון.</div>
                 </div>
@@ -398,10 +366,11 @@
       <!-- DAY 4 -->
       <article id="day-4" class="day-card bg-white rounded-3xl overflow-hidden border border-slate-200 shadow-sm hover:shadow-md transition">
         <div class="grid grid-cols-1 lg:grid-cols-12">
-          <div class="lg:col-span-4 h-60 lg:h-auto relative overflow-hidden">
+          <div class="lg:col-span-4 h-60 lg:h-auto relative overflow-hidden bg-slate-100">
             <img 
               src="https://upload.wikimedia.org/wikipedia/commons/1/1a/Latchi_Beach_Latchi_Paphos_District_Cyprus.jpg" 
-              alt="Latchi Beach and Coast" 
+              referrerpolicy="no-referrer"
+              alt="Latchi Beach" 
               class="w-full h-full object-cover"
             />
             <div class="absolute top-4 right-4 bg-emerald-700 text-white font-bold text-xs px-3 py-1.5 rounded-full shadow">
@@ -411,7 +380,7 @@
           <div class="lg:col-span-8 p-6 lg:p-8 flex flex-col justify-between">
             <div>
               <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
-                <h3 class="text-xl font-bold text-slate-900">יום 4: שבת קודש וחג סוכות – שלווה וטבע מקומי</h3>
+                <h3 class="text-xl font-bold text-slate-900">יום 4: שבת קודש וחג סוכות – שלווה בלאצ'י</h3>
                 <span class="text-xs font-semibold text-emerald-800 bg-emerald-50 border border-emerald-200 px-2.5 py-1 rounded-full">
                   <i class="fa-solid fa-umbrella-beach mr-1"></i> יום מנוחה מלא (ללא נסיעות)
                 </span>
@@ -419,19 +388,17 @@
               <p class="text-slate-600 text-sm leading-relaxed mb-6">
                 יום שלם של מנוחה משפחתית, סעודות חג, זמן איכות עם הילדים וטיולים רגליים קלילים סביב מתחם המלון, המדשאות וחוף לאצ'י.
               </p>
-
               <div class="space-y-4 border-r-2 border-emerald-200 pr-4">
-                <div class="relative">
+                <div>
                   <div class="font-bold text-sm text-slate-900">10:00 | סעודת חג וזמן משחקים</div>
-                  <div class="text-xs text-slate-500">פעילויות שקטות עם הילדים, סיפורים ומנוחה במתחם המלון.</div>
+                  <div class="text-xs text-slate-500">פעילויות שקטות עם הילדים ומנוחה במתחם המלון.</div>
                 </div>
-                <div class="relative">
-                  <div class="font-bold text-sm text-slate-900">16:30 | טיול רגלי של שבת לטיילת החוף של לאצ'י</div>
-                  <div class="text-xs text-slate-500">הליכה רגלית נוחה על קו המים ללא שום צורך ברכב, אוויר ים צח ומשחקים בחול.</div>
+                <div>
+                  <div class="font-bold text-sm text-slate-900">16:30 | טיול רגלי של שבת לטיילת לאצ'י</div>
+                  <div class="text-xs text-slate-500">הליכה רגלית נוחה על קו המים ללא שום צורך ברכב.</div>
                 </div>
-                <div class="relative">
+                <div>
                   <div class="font-bold text-sm text-slate-900">19:25 | צאת השבת והחג והבדלה</div>
-                  <div class="text-xs text-slate-500">שבוע טוב! סיור ערב קצר בנמל והתארגנות להמשך השבוע.</div>
                 </div>
               </div>
             </div>
@@ -442,10 +409,11 @@
       <!-- DAY 5 -->
       <article id="day-5" class="day-card bg-white rounded-3xl overflow-hidden border border-slate-200 shadow-sm hover:shadow-md transition">
         <div class="grid grid-cols-1 lg:grid-cols-12">
-          <div class="lg:col-span-4 h-60 lg:h-auto relative overflow-hidden">
+          <div class="lg:col-span-4 h-60 lg:h-auto relative overflow-hidden bg-slate-100">
             <img 
               src="https://upload.wikimedia.org/wikipedia/commons/6/6f/Kremiotis_Waterfall_Kritou_Tera_Paphos_District_Cyprus.jpg" 
-              alt="Kremiotis Waterfall Kritou Tera" 
+              referrerpolicy="no-referrer"
+              alt="Kremiotis Waterfall" 
               class="w-full h-full object-cover"
             />
             <div class="absolute top-4 right-4 bg-sky-600 text-white font-bold text-xs px-3 py-1.5 rounded-full shadow">
@@ -455,33 +423,25 @@
           <div class="lg:col-span-8 p-6 lg:p-8 flex flex-col justify-between">
             <div>
               <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
-                <h3 class="text-xl font-bold text-slate-900">יום 5: מפלי קריטו טרה, כפרי ההרים ושייט בלגונה</h3>
+                <h3 class="text-xl font-bold text-slate-900">יום 5: מפלי קריטו טרה ושייט בלגונה</h3>
                 <span class="text-xs font-semibold text-slate-500 bg-slate-100 px-2.5 py-1 rounded-full">
-                  <i class="fa-solid fa-cloud-sun text-sky-500 mr-1"></i> נעים ומוצל, כ-24°C
+                  <i class="fa-solid fa-cloud-sun text-sky-500 mr-1"></i> כ-24°C
                 </span>
               </div>
               <p class="text-slate-600 text-sm leading-relaxed mb-6">
-                נסיעה קצרה של כ-20 דקות לפנים האי אל כפר קריטו טרה ושבילי המים הקסומים. אחה"צ אפשרות לשייט משפחתי רגוע ומוגן מנמל לאצ'י אל הלגונה הכחולה.
+                נסיעה קצרה של כ-20 דקות לפנים האי אל כפר קריטו טרה ושבילי המים. אחה"צ שייט משפחתי רגוע מנמל לאצ'י אל הלגונה הכחולה.
               </p>
-
               <div class="space-y-4 border-r-2 border-sky-100 pr-4">
-                <div class="relative">
+                <div>
                   <div class="font-bold text-sm text-slate-900">09:30 | מפלי קריטו טרה (Kritou Tera Waterfalls)</div>
-                  <div class="text-xs text-slate-500">שביל טבע מוצל וקצר (כ-15 דק' הליכה קלה), צמחייה ירוקה ומים זורמים.</div>
+                  <div class="text-xs text-slate-500">שביל טבע קצר ומוצל (כ-15 דק' הליכה קלה) עם מים זורמים.</div>
                   <a href="https://www.google.com/maps/search/?api=1&query=Kritou+Tera+Waterfalls" target="_blank" class="inline-flex items-center gap-1.5 text-xs text-sky-600 font-semibold mt-1 hover:underline">
                     <i class="fa-solid fa-location-dot"></i> פתח ב-Google Maps
                   </a>
                 </div>
-                <div class="relative">
-                  <div class="font-bold text-sm text-slate-900">12:30 | הכפר המסורתי סטרומבי ותצפית עמק היקבים</div>
-                  <div class="text-xs text-slate-500">עצירה נינוחה לפיקניק או פירות בכפר ציורי ושקט.</div>
-                  <a href="https://www.google.com/maps/search/?api=1&query=Stroumbi+Cyprus" target="_blank" class="inline-flex items-center gap-1.5 text-xs text-sky-600 font-semibold mt-1 hover:underline">
-                    <i class="fa-solid fa-location-dot"></i> פתח ב-Google Maps
-                  </a>
-                </div>
-                <div class="relative">
-                  <div class="font-bold text-sm text-slate-900">16:00 | שייט משפחתי בלגונה הכחולה (Latchi Blue Lagoon Boat)</div>
-                  <div class="text-xs text-slate-500">יציאה מסודרת בסירה מרווחת מנמל לאצ'י. מים צלולים וטורקיז.</div>
+                <div>
+                  <div class="font-bold text-sm text-slate-900">16:00 | שייט משפחתי בלגונה הכחולה (Latchi Blue Lagoon)</div>
+                  <div class="text-xs text-slate-500">יציאה מנמל לאצ'י בסירה רגועה ומים שקטים.</div>
                   <a href="https://www.google.com/maps/search/?api=1&query=Latchi+Harbour+Cyprus" target="_blank" class="inline-flex items-center gap-1.5 text-xs text-sky-600 font-semibold mt-1 hover:underline">
                     <i class="fa-solid fa-location-dot"></i> פתח ב-Google Maps
                   </a>
@@ -495,10 +455,11 @@
       <!-- DAY 6 -->
       <article id="day-6" class="day-card bg-white rounded-3xl overflow-hidden border border-slate-200 shadow-sm hover:shadow-md transition">
         <div class="grid grid-cols-1 lg:grid-cols-12">
-          <div class="lg:col-span-4 h-60 lg:h-auto relative overflow-hidden">
+          <div class="lg:col-span-4 h-60 lg:h-auto relative overflow-hidden bg-slate-100">
             <img 
               src="https://upload.wikimedia.org/wikipedia/commons/0/05/Edro_III_Shipwreck_LE.jpg" 
-              alt="Edro III Shipwreck Sea Caves" 
+              referrerpolicy="no-referrer"
+              alt="Edro III Shipwreck" 
               class="w-full h-full object-cover"
             />
             <div class="absolute top-4 right-4 bg-sky-600 text-white font-bold text-xs px-3 py-1.5 rounded-full shadow">
@@ -510,31 +471,28 @@
               <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
                 <h3 class="text-xl font-bold text-slate-900">יום 6: הספינה הטרופה אדוויר 3 ופארק החיות</h3>
                 <span class="text-xs font-semibold text-slate-500 bg-slate-100 px-2.5 py-1 rounded-full">
-                  <i class="fa-solid fa-sun text-amber-500 mr-1"></i> שמשי, כ-27°C
+                  <i class="fa-solid fa-sun text-amber-500 mr-1"></i> כ-27°C
                 </span>
               </div>
               <p class="text-slate-600 text-sm leading-relaxed mb-6">
-                טיול יומי קל לאורך החוף המערבי של פגיה: מראה מרתק של הספינה הטרופה שעל החוף, שביל טיילת סלעי ונוח, וביקור בפארק החיות המרווח והמוצל שפעוטות מעריצים.
+                נסיעה של כ-35 דקות לאורך החוף המערבי של פגיה: מראה מרשים של הספינה הטרופה על החוף, שביל טיילת נוח, וביקור בפארק החיות של פאפוס.
               </p>
-
               <div class="space-y-4 border-r-2 border-sky-100 pr-4">
-                <div class="relative">
-                  <div class="font-bold text-sm text-slate-900">09:30 | הספינה הטרופה ומערות הים בפגיה (Edro III Shipwreck)</div>
-                  <div class="text-xs text-slate-500">תצפית קרובה ויפהפייה ישירות מהטיילת. גישה נוחה עם עגלות.</div>
+                <div>
+                  <div class="font-bold text-sm text-slate-900">09:30 | הספינה הטרופה ומערות הים בפגיה (Edro III)</div>
                   <a href="https://www.google.com/maps/search/?api=1&query=Edro+III+Shipwreck+Peyia" target="_blank" class="inline-flex items-center gap-1.5 text-xs text-sky-600 font-semibold mt-1 hover:underline">
                     <i class="fa-solid fa-location-dot"></i> פתח ב-Google Maps
                   </a>
                 </div>
-                <div class="relative">
+                <div>
                   <div class="font-bold text-sm text-slate-900">12:00 | פארק החיות בפאפוס (Pafos Zoo)</div>
-                  <div class="text-xs text-slate-500">מרחק 5 דקות נסיעה. מתחמים מוצלים, ג'ירפות, ציפורים ושבילים מרוצפים וקלים.</div>
+                  <div class="text-xs text-slate-500">שבילים מרוצפים ונוחים לעגלות, מתחמים מוצלים וחיות רבות.</div>
                   <a href="https://www.google.com/maps/search/?api=1&query=Pafos+Zoo" target="_blank" class="inline-flex items-center gap-1.5 text-xs text-sky-600 font-semibold mt-1 hover:underline">
                     <i class="fa-solid fa-location-dot"></i> פתח ב-Google Maps
                   </a>
                 </div>
-                <div class="relative">
+                <div>
                   <div class="font-bold text-sm text-slate-900">16:30 | חזרה למלון Greek Village והתארגנות לאריזה</div>
-                  <div class="text-xs text-slate-500">אריזה רגועה, משחקים אחרונים במדשאה ושינה מוקדמת לקראת הטיסה.</div>
                 </div>
               </div>
             </div>
@@ -545,10 +503,11 @@
       <!-- DAY 7 -->
       <article id="day-7" class="day-card bg-white rounded-3xl overflow-hidden border border-slate-200 shadow-sm hover:shadow-md transition">
         <div class="grid grid-cols-1 lg:grid-cols-12">
-          <div class="lg:col-span-4 h-60 lg:h-auto relative overflow-hidden">
+          <div class="lg:col-span-4 h-60 lg:h-auto relative overflow-hidden bg-slate-100">
             <img 
               src="https://upload.wikimedia.org/wikipedia/commons/9/91/Paphos_International_Airport_in_2020.06.jpg" 
-              alt="Paphos International Airport Departure" 
+              referrerpolicy="no-referrer"
+              alt="Paphos Airport Departure" 
               class="w-full h-full object-cover"
             />
             <div class="absolute top-4 right-4 bg-sky-600 text-white font-bold text-xs px-3 py-1.5 rounded-full shadow">
@@ -564,22 +523,20 @@
                 </span>
               </div>
               <p class="text-slate-600 text-sm leading-relaxed mb-6">
-                צ'ק-אאוט מוקדם ונינוח מלאצ'י, נסיעה של כ-45 דקות ישירות לשדה התעופה של פאפוס, החזרת הרכב לחברת Avis וצ'ק-אין לטיסה חזרה לישראל.
+                צ'ק-אאוט מוקדם מלאצ'י, נסיעה של כ-45 דקות ישירות לשדה התעופה של פאפוס, החזרת הרכב לחברת Avis וצ'ק-אין לטיסה חזרה.
               </p>
-
               <div class="space-y-4 border-r-2 border-sky-100 pr-4">
-                <div class="relative">
-                  <div class="font-bold text-sm text-slate-900">07:30 | צ'ק-אאוט ויציאה מלאצ'י לשדה פאפוס</div>
-                  <div class="text-xs text-slate-500">נסיעה של 45-50 דקות דרומה ללא עומסים מיוחדים.</div>
+                <div>
+                  <div class="font-bold text-sm text-slate-900">07:30 | צ'ק-אאוט ויציאה לשדה פאפוס</div>
+                  <div class="text-xs text-slate-500">נסיעה של 45-50 דקות דרומה.</div>
                 </div>
-                <div class="relative">
-                  <div class="font-bold text-sm text-slate-900">08:30 | החזרת הרכב בתחנת Avis בשדה התעופה</div>
-                  <div class="text-xs text-slate-500">החזרת מפתחות, פריקת עגלות ומזוודות ומעבר לטרמינל.</div>
+                <div>
+                  <div class="font-bold text-sm text-slate-900">08:30 | החזרת הרכב ב-Avis שדה התעופה</div>
                   <a href="https://www.google.com/maps/search/?api=1&query=Paphos+International+Airport" target="_blank" class="inline-flex items-center gap-1.5 text-xs text-sky-600 font-semibold mt-1 hover:underline">
-                    <i class="fa-solid fa-location-dot"></i> פתח ב-Google Maps
+                    <i class="fa-solid fa-location-dot"></i> תחנת החזרה ב-Maps
                   </a>
                 </div>
-                <div class="relative">
+                <div>
                   <div class="font-bold text-sm text-slate-900">11:05 | טיסה U8153 פאפוס ← תל אביב</div>
                   <div class="text-xs text-slate-500">נחיתה בנתב״ג וחזרה הביתה בשלום!</div>
                 </div>
@@ -590,15 +547,15 @@
       </article>
     </section>
 
-    <!-- Budget Summary Section -->
+    <!-- Budget Section -->
     <section id="budget" class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm">
       <div class="flex items-center justify-between mb-6">
         <div>
           <h2 class="text-2xl font-bold text-slate-900">סיכום הוצאות ותקציב החופשה</h2>
-          <p class="text-sm text-slate-500">מבוסס על שער אירו משוער של 3.50 ש״ח</p>
+          <p class="text-sm text-slate-500">מבוסס על שער אירו של כ-3.50 ש״ח</p>
         </div>
         <div class="text-left">
-          <span class="text-xs text-slate-400 block">סה״כ סגור משוער</span>
+          <span class="text-xs text-slate-400 block">סה״כ משוער</span>
           <span class="text-2xl font-extrabold text-sky-600">~17,507 ₪</span>
         </div>
       </div>
@@ -615,34 +572,26 @@
           </thead>
           <tbody class="divide-y divide-slate-100">
             <tr>
-              <td class="p-3 font-medium text-slate-900 flex items-center gap-2">
-                <i class="fa-solid fa-plane-departure text-sky-500"></i> טיסות הלוך
-              </td>
+              <td class="p-3 font-medium text-slate-900">טיסות הלוך</td>
               <td class="p-3 text-slate-600">ישראייר 6H595 (TLV ← PFO)</td>
               <td class="p-3 text-slate-600">2,351 ₪</td>
               <td class="p-3 font-semibold text-slate-900">2,351 ₪</td>
             </tr>
             <tr>
-              <td class="p-3 font-medium text-slate-900 flex items-center gap-2">
-                <i class="fa-solid fa-plane-arrival text-sky-500"></i> טיסות חזור
-              </td>
+              <td class="p-3 font-medium text-slate-900">טיסות חזור</td>
               <td class="p-3 text-slate-600">טוס איירווייז U8153 (PFO ← TLV)</td>
               <td class="p-3 text-slate-600">902 €</td>
               <td class="p-3 font-semibold text-slate-900">~3,157 ₪</td>
             </tr>
             <tr>
-              <td class="p-3 font-medium text-slate-900 flex items-center gap-2">
-                <i class="fa-solid fa-hotel text-emerald-500"></i> מלון Greek Village
-              </td>
+              <td class="p-3 font-medium text-slate-900">מלון Greek Village</td>
               <td class="p-3 text-slate-600">לאצ'י (6 לילות)</td>
               <td class="p-3 text-slate-600">2,587 €</td>
               <td class="p-3 font-semibold text-slate-900">~9,055 ₪</td>
             </tr>
             <tr>
-              <td class="p-3 font-medium text-slate-900 flex items-center gap-2">
-                <i class="fa-solid fa-car text-amber-500"></i> השכרת רכב Avis
-              </td>
-              <td class="p-3 text-slate-600">קרוסאובר אוטומטי (שדה תעופה פאפוס)</td>
+              <td class="p-3 font-medium text-slate-900">השכרת רכב Avis</td>
+              <td class="p-3 text-slate-600">קרוסאובר אוטומטי (שדה פאפוס)</td>
               <td class="p-3 text-slate-600">841 €</td>
               <td class="p-3 font-semibold text-slate-900">~2,944 ₪</td>
             </tr>
@@ -656,28 +605,6 @@
       </div>
     </section>
 
-    <!-- Toddler Friendly Tips Section -->
-    <section class="bg-gradient-to-br from-amber-50 to-orange-50 rounded-3xl p-6 sm:p-8 border border-amber-200/60 shadow-sm">
-      <div class="flex items-center gap-3 mb-4">
-        <span class="p-2.5 bg-amber-500 text-white rounded-xl shadow-sm"><i class="fa-solid fa-baby"></i></span>
-        <h3 class="text-xl font-bold text-slate-900">טיפים לקטנטנים בקפריסין (בני שנתיים וארבע)</h3>
-      </div>
-      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm text-slate-700">
-        <div class="bg-white/80 p-4 rounded-2xl border border-amber-100 shadow-2xs">
-          <div class="font-bold text-amber-900 mb-1"><i class="fa-solid fa-water text-amber-600 mr-1"></i> חוף לאצ'י</div>
-          המים בחוף לאצ'י רגועים מאוד בזכות שוברי הגלים, אך החוף מעורב חול וחלוקים קטנים – מומלץ להביא סנדלי מים/נעלי ים לקטנטנים.
-        </div>
-        <div class="bg-white/80 p-4 rounded-2xl border border-amber-100 shadow-2xs">
-          <div class="font-bold text-amber-900 mb-1"><i class="fa-solid fa-wheelchair text-amber-600 mr-1"></i> עגלות ונגישות</div>
-          מרחצאות אפרודיטה, גן החיות בפאפוס וטיילת פגיה נגישים ונוחים לעגלות. בשבילי קריטו טרה מומלץ מנשא גב לגיל שנתיים.
-        </div>
-        <div class="bg-white/80 p-4 rounded-2xl border border-amber-100 shadow-2xs">
-          <div class="font-bold text-amber-900 mb-1"><i class="fa-solid fa-clock text-amber-600 mr-1"></i> קצב נינוח</div>
-          המסלולים בנויים לטווח נסיעה של 10-35 דקות בלבד, מה שמאפשר חזרה קלה למלון למנוחת צהריים ללא לחץ.
-        </div>
-      </div>
-    </section>
-
   </main>
 
   <footer class="bg-slate-900 text-slate-400 py-8 border-t border-slate-800 text-center text-sm no-print mt-12">
@@ -688,7 +615,6 @@
   </footer>
 
   <script>
-    // Tab switching and smooth scrolling
     function scrollToDay(id) {
       const tabs = document.querySelectorAll('.day-tab');
       tabs.forEach(tab => {
